@@ -1,3 +1,4 @@
+import 'package:evently/ui/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Evently',
+      home: OnboardingScreen(),
     );
   }
 }
