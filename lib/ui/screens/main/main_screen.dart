@@ -1,8 +1,10 @@
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/ui/screens/main/taps/favorite/favorite_tap.dart';
 import 'package:evently/ui/screens/main/taps/home/home_tap.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
+import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -25,13 +27,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: IndexedStack(index: _currentIndex, children: taps),
-      ),
-      floatingActionButton: buildFAB(),
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    return EventlyScaffold(
       bottomNavigationBar: buildNavigationBar(),
+      floatingActionButton: buildFAB(appLocalizations),
+      child: IndexedStack(index: _currentIndex, children: taps),
     );
   }
 
@@ -95,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget buildFAB() {
+  Widget buildFAB(AppLocalizations appLocalizations) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -112,7 +113,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {},
         backgroundColor: AppColors.mainColor,
         shape: CircleBorder(),
-        tooltip: "Add Event",
+        tooltip: appLocalizations.addEvent,
         child: Icon(Icons.add, color: AppColors.white),
       ),
     );

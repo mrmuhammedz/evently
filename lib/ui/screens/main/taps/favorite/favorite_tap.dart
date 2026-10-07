@@ -1,3 +1,4 @@
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/event_dm.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/widgets/evently_text_field.dart';
@@ -16,26 +17,24 @@ class _FavoriteTapState extends State<FavoriteTap> {
 
   @override
   Widget build(BuildContext context) {
-    searchText = searchText?.trim().toLowerCase();
+    final appLocalizations = AppLocalizations.of(context)!;
     var filteredEvents = searchText == null ? events : events.where((event) =>
         event.title.toLowerCase().contains(searchText!) || event.description.toLowerCase().contains(searchText!)).toList();
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-          children: [
-            SizedBox(height: 16,),
-            EventlyTextField(hintText: "Search for event",
-              suffixIcon: AppIcons.search,
-              onChanged: (text) {
-                setState(() {
-                  searchText = text;
-                });
-              },),
-            SizedBox(height: 16,),
-            EventsList(
-              events: filteredEvents.where((event) => event.isFavorite).toList(),)
-          ]
-      ),
+
+    return Column(
+        children: [
+          SizedBox(height: 16,),
+          EventlyTextField(hintText: appLocalizations.searchForEvent,
+            suffixIcon: AppIcons.search,
+            onChanged: (text) {
+              setState(() {
+                searchText = text.trim().toLowerCase();
+              });
+            },),
+          SizedBox(height: 16,),
+          EventsList(
+            events: filteredEvents.where((event) => event.isFavorite).toList(),)
+        ]
     );
   }
 }

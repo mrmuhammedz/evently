@@ -1,3 +1,4 @@
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class CategoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
@@ -39,7 +41,7 @@ class CategoryTab extends StatelessWidget {
             height: 24,
           ),
           Text(
-            title,
+            selectLanguage(title, appLocalizations)!,
             style: isSelected
                 ? AppStyles.white16medium
                 : AppStyles.mainText16medium,
@@ -47,5 +49,23 @@ class CategoryTab extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String? selectLanguage(String title, AppLocalizations appLocalizations) {
+    switch (title) {
+      case "All":
+        return appLocalizations.all;
+      case "Sport":
+        return appLocalizations.sport;
+      case "Book Club":
+        return appLocalizations.bookClub;
+      case "Birthday":
+        return appLocalizations.birthday;
+      case "Meeting":
+        return appLocalizations.meeting;
+      case "Exhibition":
+        return appLocalizations.exhibition;
+    }
+    return null;
   }
 }

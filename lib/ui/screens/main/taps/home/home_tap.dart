@@ -1,3 +1,4 @@
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/models/event_dm.dart';
 import 'package:evently/ui/utils/app_assets.dart';
@@ -21,6 +22,7 @@ class _HomeTapState extends State<HomeTap> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     var filteredEvents = selectedCategoryIndex == 0
         ? events
         : events
@@ -29,29 +31,27 @@ class _HomeTapState extends State<HomeTap> {
               )
               .toList();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          SizedBox(height: 24),
-          buildHeader(),
-          SizedBox(height: 24),
-          EventlyTapBar(
-            categories: categories,
-            onTap: (category) {
-              setState(() {
-                selectedCategoryIndex = categories.indexOf(category);
-              });
-            },
-          ),
-          SizedBox(height: 24),
-          EventsList(events: filteredEvents),
-        ],
-      ),
+    return Column(
+      children: [
+        SizedBox(height: 24),
+        buildHeader(appLocalizations),
+        SizedBox(height: 24),
+        EventlyTapBar(
+          categories: categories,
+          onTap: (category) {
+            setState(() {
+              selectedCategoryIndex = categories.indexOf(category);
+            });
+          },
+        ),
+        SizedBox(height: 24),
+        EventsList(events: filteredEvents),
+      ],
     );
   }
 
-  Widget buildHeader() {
+  Widget buildHeader(AppLocalizations appLocalizations) {
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -60,7 +60,7 @@ class _HomeTapState extends State<HomeTap> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 4,
             children: [
-              Text("Welcome Back ✨", style: AppStyles.secText14regular),
+              Text(appLocalizations.welcomeBack, style: AppStyles.secText14regular),
               Text(
                 "Mr.Muhammadz",
                 style: AppStyles.mainText20medium,
@@ -81,7 +81,7 @@ class _HomeTapState extends State<HomeTap> {
               horizontalPadding: 8,
               verticalPadding: 5.5,
               bgColor: AppColors.mainColor,
-              child: Text("EN", style: AppStyles.white14semiBold),
+              child: Text(Localizations.localeOf(context).languageCode.toUpperCase(), style: AppStyles.white14semiBold),
             ),
           ],
         ),

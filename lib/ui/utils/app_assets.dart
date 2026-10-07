@@ -17,7 +17,8 @@ abstract final class AppImages {
 
 abstract final class AppIcons {
   static const String _path = 'assets/icons/';
-  static const String arrowBack = '${_path}arrow_back.svg';
+  static const String arrowLeft = '${_path}arrow_left.svg';
+  static const String arrowRight = '${_path}arrow_right.svg';
   static const String bike = '${_path}bike.svg';
   static const String birthdayCake = '${_path}birthday_cake.svg';
   static const String book = '${_path}book.svg';

@@ -13,54 +13,60 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.24,
-          decoration: BoxDecoration(border: Border.all(color: AppColors.stroke)),
-          child: Stack(
-            children: [
-              Image.asset(
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.24,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.stroke),
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
                 events[index].category.imagePath!,
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
+                height: double.infinity,
               ),
-              Align(
-                alignment: .topStart,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonWidget(
-                    onTap: () {},
-                    bgColor: AppColors.background,
-                    horizontalPadding: 8,
-                    verticalPadding: 8,
-                    child: Text(
-                      "${events[index].dateTime.day} October",
-                      style: AppStyles.mainColor16semiBold,
-                    ),
+            ),
+            Align(
+              alignment: .topStart,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ButtonWidget(
+                  onTap: () {},
+                  bgColor: AppColors.background,
+                  horizontalPadding: 8,
+                  verticalPadding: 8,
+                  child: Text(
+                    "${events[index].dateTime.day} October",
+                    style: AppStyles.mainColor16semiBold,
                   ),
                 ),
               ),
-              Align(
-                alignment: .bottomStart,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ButtonWidget(
-                    onTap: () {},
-                    bgColor: AppColors.background,
-                    horizontalPadding: 8,
-                    verticalPadding: 8,
-                    icon: events[index].isFavorite ? AppIcons.filledHeart : AppIcons.heart,
-                    child: Text(
-                      events[index].title,
-                      style: AppStyles.mainText14medium,
-                    ),
+            ),
+            Align(
+              alignment: .bottomStart,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ButtonWidget(
+                  onTap: () {},
+                  bgColor: AppColors.background,
+                  horizontalPadding: 8,
+                  verticalPadding: 8,
+                  icon: events[index].isFavorite
+                      ? AppIcons.filledHeart
+                      : AppIcons.heart,
+                  child: Text(
+                    events[index].title,
+                    style: AppStyles.mainText14medium,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
