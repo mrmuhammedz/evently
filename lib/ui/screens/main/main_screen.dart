@@ -1,3 +1,4 @@
+import 'package:evently/ui/screens/main/taps/favorite/favorite_tap.dart';
 import 'package:evently/ui/screens/main/taps/home/home_tap.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
@@ -18,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   final List<Widget> taps = const [
     HomeTap(),
-    Center(child: Text("Favorite")),
+    FavoriteTap(),
     Center(child: Text("Profile")),
   ];
 
