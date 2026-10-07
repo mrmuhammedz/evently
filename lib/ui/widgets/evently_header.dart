@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AppHeader extends StatelessWidget {
+class EventlyHeader extends StatelessWidget {
   final Widget? leading;
   final Widget center;
   final List<Widget>? actions;
 
-  const AppHeader({super.key, this.leading, required this.center, this.actions});
+  const EventlyHeader({super.key, this.leading, required this.center, this.actions});
 
   @override
   Widget build(BuildContext context) {

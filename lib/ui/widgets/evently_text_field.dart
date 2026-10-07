@@ -9,6 +9,7 @@ class EventlyTextField extends StatelessWidget {
   final String? suffixIcon;
   final bool obscureText;
   final Function(String)? onChanged;
+  final int minLines;
 
   const EventlyTextField({
     super.key,
@@ -17,6 +18,7 @@ class EventlyTextField extends StatelessWidget {
     this.suffixIcon,
     this.obscureText = false,
     this.onChanged,
+    this.minLines = 1,
   });
 
   @override
@@ -28,14 +30,14 @@ class EventlyTextField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         border: border,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: minLines != 1 ? 16 : 8),
         errorBorder: border,
         disabledBorder: border,
         enabledBorder: border,
         focusedBorder: border,
         focusedErrorBorder: border,
-        labelText: hintText,
-        labelStyle: AppStyles.secText14regular,
+        hintText: hintText,
+        hintStyle: AppStyles.secText14regular,
         prefixIcon: prefixIcon != null
             ? Padding(
                 padding: const EdgeInsets.only(left: 12, right: 8),
@@ -53,6 +55,8 @@ class EventlyTextField extends StatelessWidget {
         prefixIconConstraints: BoxConstraints(maxHeight: 24),
         suffixIconConstraints: BoxConstraints(maxHeight: 24),
       ),
+      minLines: minLines,
+      maxLines: minLines,
       obscureText: obscureText,
       style: AppStyles.mainText14regularH,
       cursorColor: AppColors.mainColor,

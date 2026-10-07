@@ -3,14 +3,13 @@ import 'package:evently/ui/screens/main/taps/favorite/favorite_tap.dart';
 import 'package:evently/ui/screens/main/taps/home/home_tap.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
+import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget {
-  static const routeName = "/main";
-
   const MainScreen({super.key});
 
   @override
@@ -110,7 +109,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       child: FloatingActionButton(
         elevation: 0,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, AppRoutes.addEventRoute());
+        },
         backgroundColor: AppColors.mainColor,
         shape: CircleBorder(),
         tooltip: appLocalizations.addEvent,

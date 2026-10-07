@@ -1,6 +1,5 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/ui/utils/app_assets.dart';
-import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/evently_header.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
