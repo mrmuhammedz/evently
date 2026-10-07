@@ -1,0 +1,73 @@
+{
+  "personalizeYourExperience": "خصص تجربتك",
+  "personalizeYourExperienceDescription": "اختر المظهر واللغة المفضلين لديك لبدء تجربة مريحة ومخصصة تناسب أسلوبك.",
+
+  "findEventsThatInspireYou": "اكتشف الفعاليات التي تلهمك",
+  "findEventsThatInspireYouDescription": "انغمس في عالم من الفعاليات المصممة لتناسب اهتماماتك الفريدة. سواء كنت من محبي الموسيقى الحية، أو ورش العمل الفنية، أو التواصل المهني، أو ببساطة اكتشاف تجارب جديدة، لدينا ما يناسب الجميع. ستساعدك توصياتنا المختارة بعناية على الاستكشاف والتواصل والاستفادة من كل فرصة من حولك.",
+
+  "effortlessEventPlanning": "خطط لفعالياتك بسهولة",
+  "effortlessEventPlanningDescription": "تخلص من عناء تنظيم الفعاليات باستخدام أدوات التخطيط المتكاملة لدينا. بدءًا من إعداد الدعوات وإدارة تأكيدات الحضور، وصولًا إلى جدولة التذكيرات وتنظيم التفاصيل، نحن نهتم بكل شيء. خطط بسهولة وركز على ما يهم حقًا – إنشاء تجربة لا تُنسى لك ولضيوفك.",
+
+  "connectWithFriendsAndShareMoments": "تواصل مع أصدقائك وشارك لحظاتك",
+  "connectWithFriendsAndShareMomentsDescription": "اجعل كل فعالية لا تُنسى من خلال مشاركة التجربة مع الآخرين. تتيح لك منصتنا دعوة أصدقائك وإبقاء الجميع على اطلاع والاحتفال باللحظات معًا. التقط لحظات الحماس وشاركها مع شبكتك لتستعيد أجمل الذكريات وتعتز بها.",
+
+  "letsStart": "لنبدأ",
+  "next": "التالي",
+  "getStarted": "ابدأ الآن",
+  "skip": "تخطي",
+
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+
+  "theme": "المظهر",
+
+  "createYourAccount": "أنشئ حسابك",
+  "loginToYourAccount": "سجل الدخول إلى حسابك",
+
+  "signUp": "إنشاء حساب",
+  "login": "تسجيل الدخول",
+
+  "enterYourName": "أدخل اسمك",
+  "enterYourEmail": "أدخل بريدك الإلكتروني",
+  "enterYourPassword": "أدخل كلمة المرور",
+  "confirmYourPassword": "تأكيد كلمة المرور",
+
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+
+  "alreadyHaveAnAccount": "لديك حساب بالفعل؟ ",
+  "dontHaveAnAccount": "ليس لديك حساب؟ ",
+
+  "or": "أو",
+
+  "loginWithGoogle": "تسجيل الدخول باستخدام Google",
+  "signUpWithGoogle": "إنشاء حساب باستخدام Google",
+
+  "addEvent": "إضافة فعالية",
+  "title": "العنوان",
+  "eventTitle": "عنوان الفعالية",
+  "description": "الوصف",
+  "eventDescription": "وصف الفعالية....",
+
+  "eventDate": "تاريخ الفعالية",
+  "chooseDate": "اختر التاريخ",
+
+  "eventTime": "وقت الفعالية",
+  "chooseTime": "اختر الوقت",
+
+  "add": "إضافة",
+
+  "forgetPassword": "نسيت كلمة المرور",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+
+  "welcomeBack": "مرحبًا بعودتك ✨",
+
+  "searchForEvent": "ابحث عن فعالية",
+
+  "all": "الكل",
+  "sport": "رياضة",
+  "bookClub": "نادي الكتاب",
+  "birthday": "عيد ميلاد",
+  "meeting": "اجتماع",
+  "exhibition": "معرض"
+}
