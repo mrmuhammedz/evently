@@ -86,7 +86,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmYourPassword => 'تأكيد كلمة المرور';
 
   @override
-  String get forgotPassword => 'هل نسيت كلمة المرور؟';
+  String get forgetPassword1 => 'هل نسيت كلمة المرور؟';
 
   @override
   String get alreadyHaveAnAccount => 'لديك حساب بالفعل؟ ';
@@ -102,6 +102,65 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'إنشاء حساب باستخدام Google';
+
+  @override
+  String get pleaseEnterYourName => 'من فضلك أدخل اسمك';
+
+  @override
+  String get nameMustBeAtLeast2Characters => 'يجب ألا يقل الاسم عن حرفين';
+
+  @override
+  String get pleaseEnterYourEmail => 'من فضلك أدخل بريدك الإلكتروني';
+
+  @override
+  String get pleaseEnterValidEmail =>
+      'من فضلك أدخل بريدًا إلكترونيًا صالحًا يحتوي على @';
+
+  @override
+  String get pleaseEnterYourPassword => 'من فضلك أدخل كلمة المرور';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'يجب ألا تقل كلمة المرور عن 6 أحرف';
+
+  @override
+  String get pleaseConfirmYourPassword => 'من فضلك أكد كلمة المرور';
+
+  @override
+  String get passwordsDontMatch => 'كلمة المرور غير متطابقة';
+
+  @override
+  String get unableToSignUp =>
+      'تعذّر تسجيل الدخول باستخدام Google. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get thisAccountAlreadyExists =>
+      'هذا الحساب موجود بالفعل باستخدام طريقة تسجيل دخول مختلفة.';
+
+  @override
+  String get invalidGoogleCredentials => 'بيانات اعتماد Google غير صالحة.';
+
+  @override
+  String get googleSignInIsNotEnabled =>
+      'تسجيل الدخول باستخدام Google غير مفعّل.';
+
+  @override
+  String get thisAccountHasBeenDisabled => 'تم تعطيل هذا الحساب.';
+
+  @override
+  String get defaultErrorMessages => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get theAccountAlreadyExists =>
+      'يوجد حساب بالفعل مرتبط بهذا البريد الإلكتروني.';
+
+  @override
+  String get theEmailIsBadlyFormatted =>
+      'تنسيق عنوان البريد الإلكتروني غير صحيح.';
+
+  @override
+  String get emailOrPasswordIsIncorrect =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة';
 
   @override
   String get addEvent => 'إضافة فعالية';
@@ -134,7 +193,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get add => 'إضافة';
 
   @override
-  String get forgetPassword => 'نسيت كلمة المرور';
+  String get forgetPassword2 => 'نسيت كلمة المرور';
 
   @override
   String get resetPassword => 'إعادة تعيين كلمة المرور';

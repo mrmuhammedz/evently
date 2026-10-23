@@ -86,7 +86,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmYourPassword => 'Confirm your password';
 
   @override
-  String get forgotPassword => 'Forgot password?';
+  String get forgetPassword1 => 'Forget password?';
 
   @override
   String get alreadyHaveAnAccount => 'Already have an account? ';
@@ -102,6 +102,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Sign up with Google';
+
+  @override
+  String get pleaseEnterYourName => 'Please enter your name';
+
+  @override
+  String get nameMustBeAtLeast2Characters =>
+      'Name must be at least 2 characters';
+
+  @override
+  String get pleaseEnterYourEmail => 'Please enter your email';
+
+  @override
+  String get pleaseEnterValidEmail => 'Please enter a valid email contains @';
+
+  @override
+  String get pleaseEnterYourPassword => 'Please enter your password';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'Password must be at least 6 characters';
+
+  @override
+  String get pleaseConfirmYourPassword => 'Please confirm your password';
+
+  @override
+  String get passwordsDontMatch => 'Passwords don\'t match';
+
+  @override
+  String get unableToSignUp =>
+      'Unable to sign in with Google. Please try again.';
+
+  @override
+  String get thisAccountAlreadyExists =>
+      'This account already exists with a different sign-in method.';
+
+  @override
+  String get invalidGoogleCredentials => 'Invalid Google credentials.';
+
+  @override
+  String get googleSignInIsNotEnabled => 'Google sign-in is not enabled.';
+
+  @override
+  String get thisAccountHasBeenDisabled => 'This account has been disabled.';
+
+  @override
+  String get defaultErrorMessages => 'Something went wrong. Please try again.';
+
+  @override
+  String get theAccountAlreadyExists =>
+      'The account already exists for that email.';
+
+  @override
+  String get theEmailIsBadlyFormatted =>
+      'The email address is badly formatted.';
+
+  @override
+  String get emailOrPasswordIsIncorrect => 'Email or password is incorrect';
 
   @override
   String get addEvent => 'Add Event';
@@ -134,7 +191,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get forgetPassword => 'Forget Password';
+  String get forgetPassword2 => 'Forget Password';
 
   @override
   String get resetPassword => 'Reset Password';

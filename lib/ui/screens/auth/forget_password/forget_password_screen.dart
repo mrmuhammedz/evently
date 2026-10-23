@@ -22,7 +22,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             SizedBox(height: 16),
             EventlyHeader(
               center: Text(
-                appLocalizations.forgetPassword,
+                appLocalizations.forgetPassword2,
                 style: AppStyles.mainText18medium,
               ),
               leading: ButtonWidget(

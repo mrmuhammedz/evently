@@ -242,11 +242,11 @@ abstract class AppLocalizations {
   /// **'Confirm your password'**
   String get confirmYourPassword;
 
-  /// No description provided for @forgotPassword.
+  /// No description provided for @forgetPassword1.
   ///
   /// In en, this message translates to:
-  /// **'Forgot password?'**
-  String get forgotPassword;
+  /// **'Forget password?'**
+  String get forgetPassword1;
 
   /// No description provided for @alreadyHaveAnAccount.
   ///
@@ -277,6 +277,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up with Google'**
   String get signUpWithGoogle;
+
+  /// No description provided for @pleaseEnterYourName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your name'**
+  String get pleaseEnterYourName;
+
+  /// No description provided for @nameMustBeAtLeast2Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Name must be at least 2 characters'**
+  String get nameMustBeAtLeast2Characters;
+
+  /// No description provided for @pleaseEnterYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get pleaseEnterYourEmail;
+
+  /// No description provided for @pleaseEnterValidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email contains @'**
+  String get pleaseEnterValidEmail;
+
+  /// No description provided for @pleaseEnterYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get pleaseEnterYourPassword;
+
+  /// No description provided for @passwordMustBeAtLeast6Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordMustBeAtLeast6Characters;
+
+  /// No description provided for @pleaseConfirmYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get pleaseConfirmYourPassword;
+
+  /// No description provided for @passwordsDontMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match'**
+  String get passwordsDontMatch;
+
+  /// No description provided for @unableToSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to sign in with Google. Please try again.'**
+  String get unableToSignUp;
+
+  /// No description provided for @thisAccountAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This account already exists with a different sign-in method.'**
+  String get thisAccountAlreadyExists;
+
+  /// No description provided for @invalidGoogleCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Google credentials.'**
+  String get invalidGoogleCredentials;
+
+  /// No description provided for @googleSignInIsNotEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in is not enabled.'**
+  String get googleSignInIsNotEnabled;
+
+  /// No description provided for @thisAccountHasBeenDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled.'**
+  String get thisAccountHasBeenDisabled;
+
+  /// No description provided for @defaultErrorMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get defaultErrorMessages;
+
+  /// No description provided for @theAccountAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'The account already exists for that email.'**
+  String get theAccountAlreadyExists;
+
+  /// No description provided for @theEmailIsBadlyFormatted.
+  ///
+  /// In en, this message translates to:
+  /// **'The email address is badly formatted.'**
+  String get theEmailIsBadlyFormatted;
+
+  /// No description provided for @emailOrPasswordIsIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect'**
+  String get emailOrPasswordIsIncorrect;
 
   /// No description provided for @addEvent.
   ///
@@ -338,11 +440,11 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get add;
 
-  /// No description provided for @forgetPassword.
+  /// No description provided for @forgetPassword2.
   ///
   /// In en, this message translates to:
   /// **'Forget Password'**
-  String get forgetPassword;
+  String get forgetPassword2;
 
   /// No description provided for @resetPassword.
   ///
