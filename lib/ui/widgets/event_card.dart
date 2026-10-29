@@ -56,7 +56,7 @@ class EventCard extends StatelessWidget {
                   bgColor: AppColors.background,
                   horizontalPadding: 8,
                   verticalPadding: 8,
-                  icon: events[index].isFavorite
+                  icon: false
                       ? AppIcons.filledHeart
                       : AppIcons.heart,
                   child: Text(

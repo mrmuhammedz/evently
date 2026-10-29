@@ -17,6 +17,11 @@ abstract final class AppStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
+  static const TextStyle red14regular = TextStyle(
+    color: AppColors.red,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
   static const TextStyle secText14regular = TextStyle(
     color: AppColors.secText,
     fontSize: 14,
