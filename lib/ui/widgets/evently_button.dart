@@ -3,15 +3,17 @@ import 'package:evently/ui/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class EventlyButton extends StatelessWidget {
-  final String text;
-  final Function() onPresses;
+  final Widget child;
+  final Function onPresses;
   final String? prefixIcon;
+  final Color backgroundColor;
 
   const EventlyButton({
     super.key,
-    required this.text,
+    required this.child,
     required this.onPresses,
     this.prefixIcon,
+    this.backgroundColor = AppColors.mainColor,
   });
 
   @override
@@ -19,28 +21,24 @@ class EventlyButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         overlayColor: Colors.transparent,
-        backgroundColor: prefixIcon == null
-            ? AppColors.mainColor
-            : AppColors.white,
+        backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         fixedSize: Size(double.infinity, 48),
         side: BorderSide(
-          color: prefixIcon == null
-              ? Colors.transparent
-              : AppColors.stroke,
+          color: prefixIcon == null ? Colors.transparent : AppColors.stroke,
         ),
       ),
-      onPressed: onPresses,
+      onPressed: () {
+        onPresses();
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (prefixIcon != null) ...[Image.asset(prefixIcon!,), SizedBox(width: 16)],
-          Text(
-            text,
-            style: prefixIcon == null
-                ? AppStyles.white20medium
-                : AppStyles.mainColor18medium,
-          ),
+          if (prefixIcon != null) ...[
+            Image.asset(prefixIcon!),
+            SizedBox(width: 16),
+          ],
+          child
         ],
       ),
     );

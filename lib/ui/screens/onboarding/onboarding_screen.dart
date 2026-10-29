@@ -136,7 +136,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           EventlyButton(
             onPresses: () {
               if (_current == _onboardingList.length - 1) {
-                Navigator.pushReplacement(context, AppRoutes.mainRoute());
+                Navigator.pushReplacement(context, AppRoutes.loginRoute());
                 return;
               }
               _controller.nextPage(
@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 curve: Curves.easeInOut,
               );
             },
-            text: _onboardingList[_current].buttonText,
+            child: Text(_onboardingList[_current].buttonText, style: AppStyles.white20medium),
           ),
           SizedBox(height: 28),
         ],

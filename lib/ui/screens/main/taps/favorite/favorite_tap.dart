@@ -18,23 +18,34 @@ class _FavoriteTapState extends State<FavoriteTap> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-    var filteredEvents = searchText == null ? events : events.where((event) =>
-        event.title.toLowerCase().contains(searchText!) || event.description.toLowerCase().contains(searchText!)).toList();
+    var filteredEvents = searchText == null
+        ? events
+        : events
+              .where(
+                (event) =>
+                    event.title.toLowerCase().contains(searchText!) ||
+                    event.description.toLowerCase().contains(searchText!),
+              )
+              .toList();
 
     return Column(
-        children: [
-          SizedBox(height: 16,),
-          EventlyTextField(hintText: appLocalizations.searchForEvent,
-            suffixIcon: AppIcons.search,
-            onChanged: (text) {
-              setState(() {
-                searchText = text.trim().toLowerCase();
-              });
-            },),
-          SizedBox(height: 16,),
-          EventsList(
-            events: filteredEvents.where((event) => event.isFavorite).toList(),)
-        ]
+      children: [
+        SizedBox(height: 16),
+        EventlyTextField(
+          hintText: appLocalizations.searchForEvent,
+          suffixIcon: AppIcons.search,
+          onChanged: (text) {
+            setState(() {
+              searchText = text.trim().toLowerCase();
+            });
+          },
+        ),
+        SizedBox(height: 16),
+        EventsList(
+          // TODO get favorite events from firestore:
+          events: filteredEvents.where((event) => event.userId == "1").toList(),
+        ),
+      ],
     );
   }
 }

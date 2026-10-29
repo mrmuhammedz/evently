@@ -5,20 +5,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class EventlyTextField extends StatelessWidget {
   final String hintText;
-  final String? prefixIcon;
   final String? suffixIcon;
-  final bool obscureText;
   final Function(String)? onChanged;
+  final TextEditingController? controller;
   final int minLines;
 
   const EventlyTextField({
     super.key,
     required this.hintText,
-    this.prefixIcon,
     this.suffixIcon,
-    this.obscureText = false,
     this.onChanged,
     this.minLines = 1,
+    this.controller,
   });
 
   @override
@@ -27,6 +25,7 @@ class EventlyTextField extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: AppColors.stroke),
     );
+
     return TextField(
       decoration: InputDecoration(
         border: border,
@@ -38,12 +37,6 @@ class EventlyTextField extends StatelessWidget {
         focusedErrorBorder: border,
         hintText: hintText,
         hintStyle: AppStyles.secText14regular,
-        prefixIcon: prefixIcon != null
-            ? Padding(
-                padding: const EdgeInsets.only(left: 12, right: 8),
-                child: SvgPicture.asset(prefixIcon!),
-              )
-            : null,
         suffixIcon: suffixIcon != null
             ? Padding(
                 padding: const EdgeInsets.only(right: 12, left: 8),
@@ -57,7 +50,7 @@ class EventlyTextField extends StatelessWidget {
       ),
       minLines: minLines,
       maxLines: minLines,
-      obscureText: obscureText,
+      controller: controller,
       style: AppStyles.mainText14regularH,
       cursorColor: AppColors.mainColor,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
