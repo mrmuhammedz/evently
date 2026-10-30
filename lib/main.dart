@@ -1,5 +1,6 @@
 import 'package:evently/firebase_options.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/ui/screens/auth/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,7 +14,10 @@ void main() async {
   await GoogleSignIn.instance.initialize();
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -24,12 +28,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = context.watch<LanguageProvider>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Evently',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale("en"),
+      locale: languageProvider.locale,
       home: const LoginScreen(),
     );
   }

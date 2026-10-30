@@ -219,4 +219,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exhibition => 'Exhibition';
+
+  @override
+  String get guest => 'Guest';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get logout => 'Logout';
 }

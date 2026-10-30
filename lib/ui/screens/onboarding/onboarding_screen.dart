@@ -1,5 +1,7 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/onboarding_dm.dart';
+import 'package:evently/providers/language_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
@@ -21,9 +23,9 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  late AppLocalizations appLocalizations;
   final PageController _controller = PageController();
-  late final List<OnboardingDm> _onboardingList = [
+  AppLocalizations get appLocalizations => AppLocalizations.of(context)!;
+  List<OnboardingDm> get _onboardingList => [
     OnboardingDm(
       imagePath: AppImages.onboardingPage1,
       title: appLocalizations.personalizeYourExperience,
@@ -54,7 +56,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-     appLocalizations = AppLocalizations.of(context)!;
+    final languageProvider = context.watch<LanguageProvider>();
+    final isEnglish = languageProvider.locale.languageCode == "en";
+
     return EventlyScaffold(
       child: Column(
         children: [
@@ -108,24 +112,44 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       SizedBox(height: 16),
                       settingsRow(
                         text: appLocalizations.language,
-                        firstButtonChild: Text(
-                          appLocalizations.english,
-                          style: AppStyles.white14semiBold,
+                        firstButton: settingsButton(
+                          onTap: () {
+                            languageProvider.setLocale(const Locale("en"));
+                          },
+                          isSelected: isEnglish,
+                          child: Text(
+                            appLocalizations.english,
+                            style: isEnglish
+                                ? AppStyles.white14semiBold
+                                : AppStyles.mainColor14regular,
+                          ),
                         ),
-                        onTapFirstButton: () {},
-                        secondButtonChild: Text(
-                          appLocalizations.arabic,
-                          style: AppStyles.mainColor14regular,
+                        secondButton: settingsButton(
+                          onTap: () {
+                            languageProvider.setLocale(const Locale("ar"));
+                          },
+                          isSelected: !isEnglish,
+                          child: Text(
+                            appLocalizations.arabic,
+                            style: !isEnglish
+                                ? AppStyles.white14semiBold
+                                : AppStyles.mainColor14regular,
+                          ),
                         ),
-                        onTapSecondButton: () {},
                       ),
                       SizedBox(height: 16),
                       settingsRow(
                         text: appLocalizations.theme,
-                        firstButtonChild: SvgPicture.asset(AppIcons.filledSun),
-                        onTapFirstButton: () {},
-                        secondButtonChild: SvgPicture.asset(AppIcons.moon),
-                        onTapSecondButton: () {},
+                        firstButton: settingsButton(
+                          onTap: () {},
+                          isSelected: true,
+                          child: SvgPicture.asset(AppIcons.filledSun),
+                        ),
+                        secondButton: settingsButton(
+                          onTap: () {},
+                          isSelected: false,
+                          child: SvgPicture.asset(AppIcons.moon),
+                        ),
                       ),
                     ],
                   ),
@@ -144,7 +168,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 curve: Curves.easeInOut,
               );
             },
-            child: Text(_onboardingList[_current].buttonText, style: AppStyles.white20medium),
+            child: Text(
+              _onboardingList[_current].buttonText,
+              style: AppStyles.white20medium,
+            ),
           ),
           SizedBox(height: 28),
         ],
@@ -162,7 +189,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 curve: Curves.easeInOut,
               );
             },
-            child: SvgPicture.asset(Localizations.localeOf(context).languageCode == "en" ? AppIcons.arrowLeft : AppIcons.arrowRight),
+            child: SvgPicture.asset(
+              Localizations.localeOf(context).languageCode == "en"
+                  ? AppIcons.arrowLeft
+                  : AppIcons.arrowRight,
+            ),
           )
         : null,
     actions: _current > 0 && _current < _onboardingList.length - 1
@@ -208,33 +239,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Row settingsRow({
     required String text,
-    required Widget firstButtonChild,
-    required Function onTapFirstButton,
-    required Widget secondButtonChild,
-    required Function onTapSecondButton,
+    required Widget firstButton,
+    required Widget secondButton,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(text, style: AppStyles.mainColor18medium),
-        Row(
-          children: [
-            settingsButton(
-              child: firstButtonChild,
-              onTap: () {
-                onTapFirstButton();
-              },
-              isSelected: true,
-            ),
-            SizedBox(width: 8),
-            settingsButton(
-              child: secondButtonChild,
-              onTap: () {
-                onTapSecondButton();
-              },
-            ),
-          ],
-        ),
+        Row(children: [firstButton, SizedBox(width: 8), secondButton]),
       ],
     );
   }

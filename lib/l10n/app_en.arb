@@ -76,5 +76,11 @@
   "bookClub": "Book Club",
   "birthday": "Birthday",
   "meeting": "Meeting",
-  "exhibition": "Exhibition"
+  "exhibition": "Exhibition",
+
+  
+  "guest": "Guest",
+  "profile": "Profile",
+  "darkMode": "Dark Mode",
+  "logout": "Logout"
 }

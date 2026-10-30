@@ -68,5 +68,10 @@
   "bookClub": "نادي الكتاب",
   "birthday": "عيد ميلاد",
   "meeting": "اجتماع",
-  "exhibition": "معرض"
+  "exhibition": "معرض",
+
+  "guest": "زائر",
+  "profile": "الملف الشخصي",
+  "darkMode": "الوضع الداكن",
+  "logout": "تسجيل الخروج"
 }

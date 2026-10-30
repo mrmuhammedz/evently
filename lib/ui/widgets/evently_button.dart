@@ -1,5 +1,4 @@
 import 'package:evently/ui/utils/app_colors.dart';
-import 'package:evently/ui/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class EventlyButton extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/models/event_dm.dart';
 import 'package:evently/models/user_dm.dart';
+import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
@@ -55,6 +56,7 @@ class _HomeTapState extends State<HomeTap> {
   }
 
   Widget buildHeader(AppLocalizations appLocalizations , UserDm? user) {
+    final languageProvider = context.watch<LanguageProvider>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,7 +67,7 @@ class _HomeTapState extends State<HomeTap> {
             children: [
               Text(appLocalizations.welcomeBack, style: AppStyles.secText14regular),
               Text(
-                user?.name ?? "Guest",
+                user?.name ?? appLocalizations.guest,
                 style: AppStyles.mainText20medium,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -80,7 +82,12 @@ class _HomeTapState extends State<HomeTap> {
           children: [
             SvgPicture.asset(AppIcons.sun),
             ButtonWidget(
-              onTap: () {},
+              onTap: () {
+                final newLocale = languageProvider.locale.languageCode == "en"
+                    ? const Locale("ar")
+                    : const Locale("en");
+                languageProvider.setLocale(newLocale);
+              },
               horizontalPadding: 8,
               verticalPadding: 5.5,
               bgColor: AppColors.mainColor,
