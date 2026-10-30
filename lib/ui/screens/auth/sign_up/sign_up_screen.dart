@@ -61,13 +61,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: controllers["email"]!.text.trim(),
-        password: controllers["password"]!.text,
-      );
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: controllers["email"]!.text.trim(),
+            password: controllers["password"]!.text,
+          );
 
-      UserDm user = UserDm(id: credential.user!.uid, name: controllers["name"]!.text.trim(), email: controllers["email"]!.text.trim());
-      await FirebaseFirestore.instance.collection("users").doc(user.id).set(user.toJson());
+      UserDm user = UserDm(
+        id: credential.user!.uid,
+        name: controllers["name"]!.text.trim(),
+        email: controllers["email"]!.text.trim(),
+      );
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.id)
+          .set(user.toJson());
 
       if (!mounted) return;
       Navigator.pop(context);
@@ -81,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           break;
         case "weak-password":
           _errorMessages["password"] =
-          appLocalizations.passwordMustBeAtLeast6Characters;
+              appLocalizations.passwordMustBeAtLeast6Characters;
           break;
         default:
           _errorMessages["default"] = appLocalizations.defaultErrorMessages;

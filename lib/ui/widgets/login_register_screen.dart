@@ -120,157 +120,163 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     );
   }
 
-  AbsorbPointer loginRegisterWithGoogleButton(AppLocalizations appLocalizations, bool isRegister) {
+  AbsorbPointer loginRegisterWithGoogleButton(
+    AppLocalizations appLocalizations,
+    bool isRegister,
+  ) {
     return AbsorbPointer(
-              absorbing: _isBusy,
-              child: Opacity(
-                opacity: widget.isLoginOrRegisterLoading ? 0.6 : 1,
-                child: EventlyButton(
-                  backgroundColor: AppColors.white,
-                  onPresses: () {
-                    _onTapGoogle(appLocalizations);
-                  },
-                  prefixIcon: _isGoogleLoading ? null : AppImages.google,
-                  child: _isGoogleLoading
-                      ? CircularProgressIndicator(color: AppColors.mainColor)
-                      : Text(
-                          isRegister
-                              ? appLocalizations.signUpWithGoogle
-                              : appLocalizations.loginWithGoogle,
-                          style: AppStyles.mainColor18medium,
-                        ),
+      absorbing: _isBusy,
+      child: Opacity(
+        opacity: widget.isLoginOrRegisterLoading ? 0.6 : 1,
+        child: EventlyButton(
+          backgroundColor: AppColors.white,
+          onPresses: () {
+            _onTapGoogle(appLocalizations);
+          },
+          prefixIcon: _isGoogleLoading ? null : AppImages.google,
+          child: _isGoogleLoading
+              ? CircularProgressIndicator(color: AppColors.mainColor)
+              : Text(
+                  isRegister
+                      ? appLocalizations.signUpWithGoogle
+                      : appLocalizations.loginWithGoogle,
+                  style: AppStyles.mainColor18medium,
                 ),
-              ),
-            );
+        ),
+      ),
+    );
   }
 
-  Row loginRegisterSwitchButton(bool isRegister, AppLocalizations appLocalizations, BuildContext context) {
+  Row loginRegisterSwitchButton(
+    bool isRegister,
+    AppLocalizations appLocalizations,
+    BuildContext context,
+  ) {
     return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  isRegister
-                      ? appLocalizations.alreadyHaveAnAccount
-                      : appLocalizations.dontHaveAnAccount,
-                  style: AppStyles.secText14regular,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    isRegister
-                        ? Navigator.pop(context)
-                        : Navigator.push(context, AppRoutes.signUpRoute());
-                  },
-                  child: Text(
-                    isRegister
-                        ? appLocalizations.login
-                        : appLocalizations.signUp,
-                    style: AppStyles.mainColor14semiBold.copyWith(
-                      decoration: .underline,
-                    ),
-                  ),
-                ),
-              ],
-            );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          isRegister
+              ? appLocalizations.alreadyHaveAnAccount
+              : appLocalizations.dontHaveAnAccount,
+          style: AppStyles.secText14regular,
+        ),
+        GestureDetector(
+          onTap: () {
+            isRegister
+                ? Navigator.pop(context)
+                : Navigator.push(context, AppRoutes.signUpRoute());
+          },
+          child: Text(
+            isRegister ? appLocalizations.login : appLocalizations.signUp,
+            style: AppStyles.mainColor14semiBold.copyWith(
+              decoration: .underline,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   AbsorbPointer loginRegisterButton(String buttonText) {
     return AbsorbPointer(
-              absorbing: _isBusy,
-              child: Opacity(
-                opacity: _isGoogleLoading ? 0.6 : 1,
-                child: EventlyButton(
-                  onPresses: () {
-                    if (_isBusy) return;
-                    if (!widget.formKey.currentState!.validate()) return;
-                    widget.onTap();
-                  },
-                  child: widget.isLoginOrRegisterLoading
-                      ? CircularProgressIndicator(color: AppColors.white)
-                      : Text(buttonText, style: AppStyles.white20medium),
-                ),
-              ),
-            );
+      absorbing: _isBusy,
+      child: Opacity(
+        opacity: _isGoogleLoading ? 0.6 : 1,
+        child: EventlyButton(
+          onPresses: () {
+            if (_isBusy) return;
+            if (!widget.formKey.currentState!.validate()) return;
+            widget.onTap();
+          },
+          child: widget.isLoginOrRegisterLoading
+              ? CircularProgressIndicator(color: AppColors.white)
+              : Text(buttonText, style: AppStyles.white20medium),
+        ),
+      ),
+    );
   }
 
-  Align forgetPasswordButton(BuildContext context, AppLocalizations appLocalizations) {
+  Align forgetPasswordButton(
+    BuildContext context,
+    AppLocalizations appLocalizations,
+  ) {
     return Align(
-                alignment: AlignmentGeometry.centerEnd,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, AppRoutes.forgetPasswordRoute());
-                  },
-                  child: Text(
-                    appLocalizations.forgetPassword1,
-                    style: AppStyles.mainColor14semiBold.copyWith(
-                      decoration: .underline,
-                    ),
-                  ),
-                ),
-              );
+      alignment: AlignmentGeometry.centerEnd,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, AppRoutes.forgetPasswordRoute());
+        },
+        child: Text(
+          appLocalizations.forgetPassword1,
+          style: AppStyles.mainColor14semiBold.copyWith(decoration: .underline),
+        ),
+      ),
+    );
   }
 
   EventlyTextFormField confirmPasswordField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-                hintText: appLocalizations.confirmYourPassword,
-                prefixIcon: AppIcons.lock,
-                suffixIcon: AppIcons.eyeSlash,
-                suffixIconActive: AppIcons.eye,
-                controller: widget.controllers["confirmPassword"],
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return appLocalizations.pleaseEnterYourPassword;
-                  }
-                  if (value != widget.controllers["password"]!.text) {
-                    return appLocalizations.passwordsDontMatch;
-                  }
-                  return null;
-                },
-              );
+      hintText: appLocalizations.confirmYourPassword,
+      prefixIcon: AppIcons.lock,
+      suffixIcon: AppIcons.eyeSlash,
+      suffixIconActive: AppIcons.eye,
+      controller: widget.controllers["confirmPassword"],
+      obscureText: true,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return appLocalizations.pleaseEnterYourPassword;
+        }
+        if (value != widget.controllers["password"]!.text) {
+          return appLocalizations.passwordsDontMatch;
+        }
+        return null;
+      },
+    );
   }
 
   EventlyTextFormField passwordField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-              hintText: appLocalizations.enterYourPassword,
-              prefixIcon: AppIcons.lock,
-              suffixIcon: AppIcons.eyeSlash,
-              suffixIconActive: AppIcons.eye,
-              obscureText: true,
-              controller: widget.controllers["password"],
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return appLocalizations.pleaseEnterYourPassword;
-                }
-                if (value.length < 6) {
-                  return appLocalizations.passwordMustBeAtLeast6Characters;
-                }
-                return null;
-              },
-            );
+      hintText: appLocalizations.enterYourPassword,
+      prefixIcon: AppIcons.lock,
+      suffixIcon: AppIcons.eyeSlash,
+      suffixIconActive: AppIcons.eye,
+      obscureText: true,
+      controller: widget.controllers["password"],
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return appLocalizations.pleaseEnterYourPassword;
+        }
+        if (value.length < 6) {
+          return appLocalizations.passwordMustBeAtLeast6Characters;
+        }
+        return null;
+      },
+    );
   }
 
   EventlyTextFormField emailField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-              hintText: appLocalizations.enterYourEmail,
-              prefixIcon: AppIcons.sms,
-              controller: widget.controllers["email"],
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (widget.errorMessages["email"] != null &&
-                    widget.errorMessages["email"]!.isNotEmpty) {
-                  final error = widget.errorMessages["email"];
-                  widget.errorMessages["email"] = "";
-                  return error;
-                }
-                if (value == null || value.trim().isEmpty) {
-                  return appLocalizations.pleaseEnterYourEmail;
-                }
-                if (!value.contains("@")) {
-                  return appLocalizations.pleaseEnterValidEmail;
-                }
-                return null;
-              },
-            );
+      hintText: appLocalizations.enterYourEmail,
+      prefixIcon: AppIcons.sms,
+      controller: widget.controllers["email"],
+      keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        if (widget.errorMessages["email"] != null &&
+            widget.errorMessages["email"]!.isNotEmpty) {
+          final error = widget.errorMessages["email"];
+          widget.errorMessages["email"] = "";
+          return error;
+        }
+        if (value == null || value.trim().isEmpty) {
+          return appLocalizations.pleaseEnterYourEmail;
+        }
+        if (!value.contains("@")) {
+          return appLocalizations.pleaseEnterValidEmail;
+        }
+        return null;
+      },
+    );
   }
 
   EventlyTextFormField nameField(AppLocalizations appLocalizations) {
@@ -309,15 +315,23 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
         credential,
       );
 
-      final user = UserDm(
-        id: userCredential.user!.uid,
-        name: userCredential.user?.displayName ?? "user",
-        email: userCredential.user?.email ?? googleUser.email,
-      );
-      await FirebaseFirestore.instance
+      late UserDm user;
+      final userDoc = FirebaseFirestore.instance
           .collection("users")
-          .doc(user.id)
-          .set(user.toJson());
+          .doc(userCredential.user!.uid);
+      final userSnapshot = await userDoc.get();
+
+      if (userSnapshot.exists && userSnapshot.data() != null) {
+        user = UserDm.fromJson(userSnapshot.data()!);
+      } else {
+        user = UserDm(
+          id: userCredential.user!.uid,
+          name: userCredential.user!.displayName ?? "",
+          email: userCredential.user!.email ?? "",
+          photoUrl: userCredential.user!.photoURL,
+        );
+        await userDoc.set(user.toJson());
+      }
 
       if (!mounted) return;
       context.read<UserProvider>().setUser(user);

@@ -82,5 +82,10 @@
   "guest": "Guest",
   "profile": "Profile",
   "darkMode": "Dark Mode",
-  "logout": "Logout"
+  "logout": "Logout",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "home": "Home",
+  "favorite": "Favorite"
 }

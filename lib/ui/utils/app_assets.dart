@@ -1,5 +1,6 @@
 abstract final class AppImages {
   static const String _path = 'assets/images/';
+  static const String profile = '${_path}default_profile.png';
   static const String google = '${_path}google.png';
   static const String logo = '${_path}logo.png';
   static const String eventlyLogo = '${_path}evently_logo.png';

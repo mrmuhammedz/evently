@@ -11,7 +11,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeUser() {
+  void logout() {
     _user = null;
     notifyListeners();
   }

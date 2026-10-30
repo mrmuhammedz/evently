@@ -1,6 +1,7 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/ui/screens/main/taps/favorite/favorite_tap.dart';
 import 'package:evently/ui/screens/main/taps/home/home_tap.dart';
+import 'package:evently/ui/screens/main/taps/profile/profile_tap.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> taps = const [
     HomeTap(),
     FavoriteTap(),
-    Center(child: Text("Profile")),
+    ProfileTap(),
   ];
 
   @override
@@ -29,13 +30,13 @@ class _MainScreenState extends State<MainScreen> {
     final appLocalizations = AppLocalizations.of(context)!;
 
     return EventlyScaffold(
-      bottomNavigationBar: buildNavigationBar(),
+      bottomNavigationBar: buildNavigationBar(appLocalizations),
       floatingActionButton: buildFAB(appLocalizations),
       child: IndexedStack(index: _currentIndex, children: taps),
     );
   }
 
-  Widget buildNavigationBar() {
+  Widget buildNavigationBar(AppLocalizations appLocalizations) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(24),
@@ -44,17 +45,17 @@ class _MainScreenState extends State<MainScreen> {
       child: BottomNavigationBar(
         items: [
           navigationBarItemBuilder(
-            label: "Home",
+            label: appLocalizations.home,
             icon: AppIcons.home,
             activeIcon: AppIcons.filledHome,
           ),
           navigationBarItemBuilder(
-            label: "Favorite",
+            label: appLocalizations.favorite,
             icon: AppIcons.heart,
             activeIcon: AppIcons.filledHeart,
           ),
           navigationBarItemBuilder(
-            label: "Profile",
+            label: appLocalizations.profile,
             icon: AppIcons.user,
             activeIcon: AppIcons.filledUser,
           ),
