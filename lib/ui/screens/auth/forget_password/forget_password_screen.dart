@@ -36,6 +36,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             Image.asset(AppImages.changeSetting, fit: .fitWidth),
             SizedBox(height: 40),
             EventlyButton(child: Text(appLocalizations.resetPassword, style: AppStyles.white20medium), onPresses: () {}),
+            SizedBox(height: 16),
           ],
         ),
       ),

@@ -1,13 +1,12 @@
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ButtonWidget extends StatelessWidget {
   final double horizontalPadding;
   final double verticalPadding;
-  final Function() onTap;
+  final Function? onTap;
   final Widget child;
-  final String? icon;
+  final Widget? icon;
   final Color bgColor;
 
   const ButtonWidget({
@@ -15,7 +14,7 @@ class ButtonWidget extends StatelessWidget {
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
     this.bgColor = AppColors.white,
-    required this.onTap,
+    this.onTap,
     required this.child,
     this.icon,
   });
@@ -24,7 +23,7 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: () => onTap(),
+      onTap: () => onTap?.call(),
       child: Container(
         padding: EdgeInsetsGeometry.symmetric(
           horizontal: horizontalPadding,
@@ -44,7 +43,7 @@ class ButtonWidget extends StatelessWidget {
               ? [child]
               : [
                   Expanded(child: child),
-                  GestureDetector(onTap: () {}, child: SvgPicture.asset(icon!)),
+                  ?icon,
                 ],
         ),
       ),

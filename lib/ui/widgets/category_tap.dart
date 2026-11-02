@@ -41,7 +41,7 @@ class CategoryTab extends StatelessWidget {
             height: 24,
           ),
           Text(
-            selectLanguage(title, appLocalizations)!,
+            selectLanguage(title, appLocalizations),
             style: isSelected
                 ? AppStyles.white16medium
                 : AppStyles.mainText16medium,
@@ -51,7 +51,7 @@ class CategoryTab extends StatelessWidget {
     );
   }
 
-  String? selectLanguage(String title, AppLocalizations appLocalizations) {
+  String selectLanguage(String title, AppLocalizations appLocalizations) {
     switch (title) {
       case "All":
         return appLocalizations.all;
@@ -66,6 +66,6 @@ class CategoryTab extends StatelessWidget {
       case "Exhibition":
         return appLocalizations.exhibition;
     }
-    return null;
+    return title;
   }
 }

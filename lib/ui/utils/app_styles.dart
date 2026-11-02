@@ -64,6 +64,11 @@ abstract final class AppStyles {
     fontSize: 16,
     fontWeight: FontWeight.w600,
   );
+  static const TextStyle darkred16semiBold = TextStyle(
+    color: AppColors.darkred,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle white16medium = TextStyle(
     color: AppColors.white,
     fontSize: 16,

@@ -1,5 +1,7 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
+import 'package:evently/providers/user_provider.dart';
+import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
@@ -8,9 +10,10 @@ import 'package:evently/ui/widgets/evently_header.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:evently/ui/widgets/evently_tap_bar.dart';
-import 'package:evently/ui/widgets/evently_text_field.dart';
+import 'package:evently/ui/widgets/evently_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class AddEventScreen extends StatefulWidget {
   const AddEventScreen({super.key});
@@ -20,150 +23,270 @@ class AddEventScreen extends StatefulWidget {
 }
 
 class _AddEventScreenState extends State<AddEventScreen> {
-  CategoryDm selectedCategory = categories[1];
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  EventCategory? _selectedCategory = allCategories[1].id;
+  final _key = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _now = DateTime.now();
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+  late DateTime _selectedDateTime;
+  String? _errorMessage;
+  bool _isLoading = false;
+  late final _appLocalizations = AppLocalizations.of(context)!;
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context)!;
     return EventlyScaffold(
       child: Column(
         children: [
           const SizedBox(height: 16),
-          EventlyHeader(
-            center: Text(
-              appLocalizations.addEvent,
-              style: AppStyles.mainText18medium,
-            ),
-            leading: ButtonWidget(
-              onTap: () => Navigator.pop(context),
-              child: SvgPicture.asset(
-                Localizations.localeOf(context).languageCode == "en"
-                    ? AppIcons.arrowLeft
-                    : AppIcons.arrowRight,
-              ),
-            ),
-          ),
+          screenHeader(),
           const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.24,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.stroke),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        selectedCategory.imagePath!,
-                        fit: .fitWidth,
-                      ),
-                    ),
-                  ),
+                  categoryImage(),
                   const SizedBox(height: 16),
-                  EventlyTapBar(
-                    categories: categories.skip(1).toList(),
-                    onTap: (category) {
-                      setState(() {
-                        selectedCategory = category;
-                      });
-                    },
-                  ),
+                  tapBar(),
                   const SizedBox(height: 16),
-                  textFieldContainer(
-                    label: appLocalizations.title,
-                    hintText: appLocalizations.eventTitle,
-                    controller: titleController,
-                  ),
-                  const SizedBox(height: 16),
-                  textFieldContainer(
-                    label: appLocalizations.description,
-                    hintText: appLocalizations.eventDescription,
-                    minLines: 7,
-                    controller: descriptionController,
-                  ),
-                  const SizedBox(height: 16),
-                  eventDateTimeRow(
-                    icon: AppIcons.calendar,
-                    title: appLocalizations.eventDate,
-                    value: selectedDate != null
-                        ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
-                        : appLocalizations.chooseDate,
-                    onTap: () async {
-                      final pickedDate = await showDatePicker(
-                        confirmText: appLocalizations.add,
-                        context: context,
-                        initialDate: selectedDate ?? DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(const Duration(days: 365)),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          selectedDate = pickedDate;
-                        });
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  eventDateTimeRow(
-                    icon: AppIcons.clock,
-                    title: appLocalizations.eventTime,
-                    value: selectedTime != null
-                        ? "${selectedTime!.hour.toString().padLeft(2, "0")}:${selectedTime!.minute.toString().padLeft(2, "0")}"
-                        : appLocalizations.chooseTime,
-                    onTap: () async {
-                      final pickedTime = await showTimePicker(
-                        confirmText: appLocalizations.add,
-                        context: context,
-                        initialTime: selectedTime ?? TimeOfDay.now(),
-                      );
-                      if (pickedTime != null) {
-                        setState(() {
-                          selectedTime = pickedTime;
-                        });
-                      }
-                    },
-                  ),
+                  addForm(),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 16),
-          EventlyButton(
-            child: Text(
-              appLocalizations.addEvent,
-              style: AppStyles.white20medium,
+          addEventButton(),
+          if (_errorMessage != null) ...[
+            SizedBox(height: 8),
+            Text(
+              _errorMessage!,
+              textAlign: TextAlign.center,
+              style: AppStyles.red14regular,
             ),
-            onPresses: () {
-              // TODO add event to firestore
-              Navigator.pop(context);
-            },
-          ),
-          const SizedBox(height: 7),
+          ],
+          const SizedBox(height: 8),
         ],
       ),
     );
   }
 
+  EventlyHeader screenHeader() {
+    return EventlyHeader(
+      center: Text(
+        _appLocalizations.addEvent,
+        style: AppStyles.mainText18medium,
+      ),
+      leading: ButtonWidget(
+        onTap: () => Navigator.pop(context),
+        child: SvgPicture.asset(
+          Localizations.localeOf(context).languageCode == "en"
+              ? AppIcons.arrowLeft
+              : AppIcons.arrowRight,
+        ),
+      ),
+    );
+  }
+
+  Container categoryImage() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.24,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.stroke),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Image.asset(
+          CategoryDm.getCategoryById(_selectedCategory!).imagePath!,
+          fit: BoxFit.fitWidth,
+        ),
+      ),
+    );
+  }
+
+  EventlyTapBar tapBar() {
+    return EventlyTapBar(
+      categories: allCategories.skip(1).toList(),
+      onTap: (id) {
+        setState(() => _selectedCategory = id);
+      },
+    );
+  }
+
+  Form addForm() {
+    return Form(
+      key: _key,
+      child: Column(
+        children: [
+          titleField(),
+          const SizedBox(height: 16),
+          descriptionField(),
+          const SizedBox(height: 16),
+          dateRow(),
+          const SizedBox(height: 16),
+          timeRow(),
+        ],
+      ),
+    );
+  }
+
+  Widget titleField() {
+    return textFieldContainer(
+      label: _appLocalizations.title,
+      hintText: _appLocalizations.eventTitle,
+      controller: _titleController,
+      textInputAction: TextInputAction.next,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return _appLocalizations.pleaseEnterEventTitle;
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget descriptionField() {
+    return textFieldContainer(
+      label: _appLocalizations.description,
+      hintText: _appLocalizations.eventDescription,
+      lines: 7,
+      controller: _descriptionController,
+      textInputAction: TextInputAction.newline,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return _appLocalizations.pleaseEnterEventDescription;
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget dateRow() {
+    return eventDateTimeRow(
+      icon: AppIcons.calendar,
+      title: _appLocalizations.eventDate,
+      value: _selectedDate != null
+          ? "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}"
+          : _appLocalizations.chooseDate,
+      onTap: () async {
+        final pickedDate = await showDatePicker(
+          confirmText: _appLocalizations.add,
+          context: context,
+          initialDate: _selectedDate ?? _now,
+          firstDate: _now,
+          lastDate: _now.add(const Duration(days: 365)),
+        );
+        if (pickedDate != null) {
+          setState(() {
+            _selectedDate = pickedDate;
+            _selectedDateTime = DateTime(
+              pickedDate.year,
+              pickedDate.month,
+              pickedDate.day,
+              _selectedTime?.hour ?? 0,
+              _selectedTime?.minute ?? 0,
+            );
+          });
+        }
+      },
+    );
+  }
+
+  Widget timeRow() {
+    return eventDateTimeRow(
+      icon: AppIcons.clock,
+      title: _appLocalizations.eventTime,
+      value: _selectedTime != null
+          ? "${_selectedTime!.hour.toString().padLeft(2, "0")}:${_selectedTime!.minute.toString().padLeft(2, "0")}"
+          : _appLocalizations.chooseTime,
+      onTap: () async {
+        final pickedTime = await showTimePicker(
+          confirmText: _appLocalizations.add,
+          context: context,
+          initialTime: _selectedTime ?? TimeOfDay.now(),
+        );
+        if (pickedTime != null) {
+          setState(() {
+            _selectedTime = pickedTime;
+            _selectedDateTime = DateTime(
+              _selectedDate?.year ?? _now.year,
+              _selectedDate?.month ?? _now.month,
+              _selectedDate?.day ?? _now.day,
+              pickedTime.hour,
+              pickedTime.minute,
+            );
+          });
+        }
+      },
+    );
+  }
+
+  Widget addEventButton() {
+    return EventlyButton(
+      onPresses: onPressAddEvent,
+      child: _isLoading
+          ? CircularProgressIndicator(color: AppColors.white)
+          : Text(_appLocalizations.addEvent, style: AppStyles.white20medium),
+    );
+  }
+
+  Future<void> onPressAddEvent() async {
+    if (_isLoading) return;
+    if (!_key.currentState!.validate()) {
+      return;
+    }
+    if (_selectedDate == null || _selectedTime == null) {
+      setState(() => _errorMessage = _appLocalizations.pleaseSelectDateAndTime);
+      return;
+    }
+    if (_selectedDateTime.isBefore(_now.add(const Duration(hours: 1)))) {
+      setState(
+        () => _errorMessage =
+            _appLocalizations.pleaseSelectTimeAtLeastOneHourAhead,
+      );
+      return;
+    }
+    setState(() {
+      _errorMessage = null;
+      _isLoading = true;
+    });
+
+    try {
+      await EventService().addEvent(
+        userId: context.read<UserProvider>().user!.id,
+        title: _titleController.text.trim(),
+        description: _descriptionController.text.trim(),
+        categoryId: _selectedCategory!,
+        dateTime: _selectedDateTime,
+      );
+      if (!mounted) return;
+      Navigator.pop(context);
+    } catch (e) {
+      setState(() => _errorMessage = e.toString());
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
   Widget textFieldContainer({
     required String label,
+    TextInputAction? textInputAction,
     required String hintText,
     required TextEditingController controller,
-    int minLines = 1,
+    required String? Function(String?) validator,
+    int lines = 1,
   }) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     spacing: 8,
     children: [
       Text(label, style: AppStyles.mainText16medium),
-      EventlyTextField(
+      EventlyTextFormField(
+        validator: validator,
+        textInputAction: textInputAction,
         hintText: hintText,
-        minLines: minLines,
+        minLines: lines,
         controller: controller,
       ),
     ],

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/services/auth_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/providers/user_provider.dart';
@@ -40,14 +40,13 @@ class LoginRegisterScreen extends StatefulWidget {
 
 class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   bool _isGoogleLoading = false;
-
+  late final _isRegister = widget.mode == AuthMode.register;
   bool get _isBusy => widget.isLoginOrRegisterLoading || _isGoogleLoading;
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-    final isRegister = widget.mode == AuthMode.register;
-    final buttonText = isRegister
+    final buttonText = _isRegister
         ? appLocalizations.signUp
         : appLocalizations.login;
 
@@ -62,25 +61,25 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
               Image.asset(AppImages.logo),
               SizedBox(height: 48),
               Text(
-                isRegister
+                _isRegister
                     ? appLocalizations.createYourAccount
                     : appLocalizations.loginToYourAccount,
                 style: AppStyles.mainColor24semiBold,
               ),
               SizedBox(height: 24),
-              if (isRegister) ...[
+              if (_isRegister) ...[
                 nameField(appLocalizations),
                 SizedBox(height: 16),
               ],
               emailField(appLocalizations),
               SizedBox(height: 16),
               passwordField(appLocalizations),
-              if (isRegister) ...[
+              if (_isRegister) ...[
                 SizedBox(height: 16),
                 confirmPasswordField(appLocalizations),
                 SizedBox(height: 4),
               ],
-              if (!isRegister) ...[
+              if (!_isRegister) ...[
                 SizedBox(height: 8),
                 forgetPasswordButton(context, appLocalizations),
               ],
@@ -96,7 +95,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 SizedBox(height: 8),
               ],
               SizedBox(height: 48),
-              loginRegisterSwitchButton(isRegister, appLocalizations, context),
+              loginRegisterSwitchButton(_isRegister, appLocalizations, context),
               SizedBox(height: 32),
               Row(
                 children: [
@@ -112,7 +111,8 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 ],
               ),
               SizedBox(height: 24),
-              loginRegisterWithGoogleButton(appLocalizations, isRegister),
+              loginRegisterWithGoogleButton(appLocalizations, _isRegister),
+              SizedBox(height: 16),
             ],
           ),
         ),
@@ -178,7 +178,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     );
   }
 
-  AbsorbPointer loginRegisterButton(String buttonText) {
+  Widget loginRegisterButton(String buttonText) {
     return AbsorbPointer(
       absorbing: _isBusy,
       child: Opacity(
@@ -217,12 +217,13 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
   EventlyTextFormField confirmPasswordField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-      hintText: appLocalizations.confirmYourPassword,
+      label: appLocalizations.confirmYourPassword,
       prefixIcon: AppIcons.lock,
-      suffixIcon: AppIcons.eyeSlash,
-      suffixIconActive: AppIcons.eye,
+      suffixIcon: AppIcons.eye,
+      suffixIconInactive: AppIcons.eyeSlash,
       controller: widget.controllers["confirmPassword"],
       obscureText: true,
+      textInputAction: TextInputAction.done,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return appLocalizations.pleaseEnterYourPassword;
@@ -237,11 +238,12 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
   EventlyTextFormField passwordField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-      hintText: appLocalizations.enterYourPassword,
+      label: appLocalizations.enterYourPassword,
       prefixIcon: AppIcons.lock,
-      suffixIcon: AppIcons.eyeSlash,
-      suffixIconActive: AppIcons.eye,
+      suffixIcon: AppIcons.eye,
+      suffixIconInactive: AppIcons.eyeSlash,
       obscureText: true,
+      textInputAction: _isRegister ? TextInputAction.next : TextInputAction.done,
       controller: widget.controllers["password"],
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
@@ -257,10 +259,11 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
   EventlyTextFormField emailField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-      hintText: appLocalizations.enterYourEmail,
+      label: appLocalizations.enterYourEmail,
       prefixIcon: AppIcons.sms,
       controller: widget.controllers["email"],
       keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
       validator: (value) {
         if (widget.errorMessages["email"] != null &&
             widget.errorMessages["email"]!.isNotEmpty) {
@@ -281,9 +284,10 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
   EventlyTextFormField nameField(AppLocalizations appLocalizations) {
     return EventlyTextFormField(
-      hintText: appLocalizations.enterYourName,
+      label: appLocalizations.enterYourName,
       prefixIcon: AppIcons.user,
       controller: widget.controllers["name"],
+      textInputAction: TextInputAction.next,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return appLocalizations.pleaseEnterYourName;
@@ -305,33 +309,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     });
 
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn.instance
-          .authenticate();
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(
-        credential,
-      );
-
-      late UserDm user;
-      final userDoc = FirebaseFirestore.instance
-          .collection("users")
-          .doc(userCredential.user!.uid);
-      final userSnapshot = await userDoc.get();
-
-      if (userSnapshot.exists && userSnapshot.data() != null) {
-        user = UserDm.fromJson(userSnapshot.data()!);
-      } else {
-        user = UserDm(
-          id: userCredential.user!.uid,
-          name: userCredential.user!.displayName ?? "",
-          email: userCredential.user!.email ?? "",
-          photoUrl: userCredential.user!.photoURL,
-        );
-        await userDoc.set(user.toJson());
-      }
+      UserDm user = await AuthService().createUserByGoogle();
 
       if (!mounted) return;
       context.read<UserProvider>().setUser(user);

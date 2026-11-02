@@ -553,6 +553,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Favorite'**
   String get favorite;
+
+  /// No description provided for @pleaseEnterEventTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter event title'**
+  String get pleaseEnterEventTitle;
+
+  /// No description provided for @pleaseEnterEventDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter event description'**
+  String get pleaseEnterEventDescription;
+
+  /// No description provided for @pleaseSelectDateAndTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select date and time'**
+  String get pleaseSelectDateAndTime;
+
+  /// No description provided for @pleaseSelectTimeAtLeastOneHourAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a time at least one hour ahead'**
+  String get pleaseSelectTimeAtLeastOneHourAhead;
+
+  /// No description provided for @noEventsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No events found'**
+  String get noEventsFound;
+
+  /// No description provided for @noFavoriteEventsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite events found'**
+  String get noFavoriteEventsFound;
+
+  /// No description provided for @eventEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Ended'**
+  String get eventEnded;
 }
 
 class _AppLocalizationsDelegate

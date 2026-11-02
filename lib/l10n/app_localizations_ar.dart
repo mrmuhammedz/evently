@@ -248,4 +248,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get favorite => 'المفضلة';
+
+  @override
+  String get pleaseEnterEventTitle => 'من فضلك أدخل عنوان الفعالية';
+
+  @override
+  String get pleaseEnterEventDescription => 'من فضلك أدخل وصف الفعالية';
+
+  @override
+  String get pleaseSelectDateAndTime => 'من فضلك اختر التاريخ والوقت';
+
+  @override
+  String get pleaseSelectTimeAtLeastOneHourAhead =>
+      'من فضلك اختر وقتًا على الأقل بعد ساعة من الآن';
+
+  @override
+  String get noEventsFound => 'لم يتم العثور على فعاليات';
+
+  @override
+  String get noFavoriteEventsFound => 'لم يتم العثور على فعاليات مفضلة';
+
+  @override
+  String get eventEnded => 'انتهى الحدث';
 }

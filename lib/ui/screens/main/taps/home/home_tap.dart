@@ -4,6 +4,7 @@ import 'package:evently/models/event_dm.dart';
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
@@ -22,40 +23,67 @@ class HomeTap extends StatefulWidget {
 }
 
 class _HomeTapState extends State<HomeTap> {
-  int selectedCategoryIndex = 0;
+  EventCategory? _selectedCategoryId;
+  late final Stream<List<EventDm>> _eventsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventsStream = EventService().getEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
     final user = context.watch<UserProvider>().user;
-    var filteredEvents = selectedCategoryIndex == 0
-        ? events
-        : events
-              .where(
-                (event) => event.category == categories[selectedCategoryIndex],
-              )
-              .toList();
 
     return Column(
       children: [
         SizedBox(height: 24),
         buildHeader(appLocalizations, user),
         SizedBox(height: 24),
-        EventlyTapBar(
-          categories: categories,
-          onTap: (category) {
-            setState(() {
-              selectedCategoryIndex = categories.indexOf(category);
-            });
+        tapBar(),
+        SizedBox(height: 24),
+        StreamBuilder<List<EventDm>>(
+          stream: _eventsStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error.toString()}'));
+            } else if (!snapshot.hasData ||
+                filterEvents(snapshot.data ?? []).isEmpty) {
+              return Center(child: Text(appLocalizations.noEventsFound));
+            }
+
+            return EventsList(events: filterEvents(snapshot.data ?? []));
           },
         ),
-        SizedBox(height: 24),
-        EventsList(events: filteredEvents),
       ],
     );
   }
 
-  Widget buildHeader(AppLocalizations appLocalizations , UserDm? user) {
+  List<EventDm> filterEvents(List<EventDm> events) {
+    return _selectedCategoryId == null
+        ? events
+        : events
+              .where((event) => event.categoryId == _selectedCategoryId)
+              .toList();
+  }
+
+  EventlyTapBar tapBar() {
+    return EventlyTapBar(
+      categories: allCategories,
+      onTap: (id) {
+        if (_selectedCategoryId == id) return;
+        setState(() {
+          _selectedCategoryId = id;
+        });
+      },
+    );
+  }
+
+  Widget buildHeader(AppLocalizations appLocalizations, UserDm? user) {
     final languageProvider = context.watch<LanguageProvider>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +93,10 @@ class _HomeTapState extends State<HomeTap> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 4,
             children: [
-              Text(appLocalizations.welcomeBack, style: AppStyles.secText14regular),
+              Text(
+                appLocalizations.welcomeBack,
+                style: AppStyles.secText14regular,
+              ),
               Text(
                 user?.name ?? appLocalizations.guest,
                 style: AppStyles.mainText20medium,
@@ -91,7 +122,10 @@ class _HomeTapState extends State<HomeTap> {
               horizontalPadding: 8,
               verticalPadding: 5.5,
               bgColor: AppColors.mainColor,
-              child: Text(Localizations.localeOf(context).languageCode.toUpperCase(), style: AppStyles.white14semiBold),
+              child: Text(
+                languageProvider.locale.languageCode.toUpperCase(),
+                style: AppStyles.white14semiBold,
+              ),
             ),
           ],
         ),

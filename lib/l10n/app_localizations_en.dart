@@ -246,4 +246,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favorite => 'Favorite';
+
+  @override
+  String get pleaseEnterEventTitle => 'Please enter event title';
+
+  @override
+  String get pleaseEnterEventDescription => 'Please enter event description';
+
+  @override
+  String get pleaseSelectDateAndTime => 'Please select date and time';
+
+  @override
+  String get pleaseSelectTimeAtLeastOneHourAhead =>
+      'Please select a time at least one hour ahead';
+
+  @override
+  String get noEventsFound => 'No events found';
+
+  @override
+  String get noFavoriteEventsFound => 'No favorite events found';
+
+  @override
+  String get eventEnded => 'Event Ended';
 }

@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  final List<Widget> taps = const [
+  final List<Widget> _taps = const [
     HomeTap(),
     FavoriteTap(),
     ProfileTap(),
@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     return EventlyScaffold(
       bottomNavigationBar: buildNavigationBar(appLocalizations),
       floatingActionButton: buildFAB(appLocalizations),
-      child: IndexedStack(index: _currentIndex, children: taps),
+      child: IndexedStack(index: _currentIndex, children: _taps),
     );
   }
 

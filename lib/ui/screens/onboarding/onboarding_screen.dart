@@ -24,32 +24,32 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
-  AppLocalizations get appLocalizations => AppLocalizations.of(context)!;
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
   List<OnboardingDm> get _onboardingList => [
     OnboardingDm(
       imagePath: AppImages.onboardingPage1,
-      title: appLocalizations.personalizeYourExperience,
-      description: appLocalizations.personalizeYourExperienceDescription,
-      buttonText: appLocalizations.letsStart,
+      title: _appLocalizations.personalizeYourExperience,
+      description: _appLocalizations.personalizeYourExperienceDescription,
+      buttonText: _appLocalizations.letsStart,
     ),
     OnboardingDm(
       imagePath: AppImages.onboardingPage2,
-      title: appLocalizations.findEventsThatInspireYou,
-      description: appLocalizations.findEventsThatInspireYouDescription,
-      buttonText: appLocalizations.next,
+      title: _appLocalizations.findEventsThatInspireYou,
+      description: _appLocalizations.findEventsThatInspireYouDescription,
+      buttonText: _appLocalizations.next,
     ),
     OnboardingDm(
       imagePath: AppImages.onboardingPage3,
-      title: appLocalizations.effortlessEventPlanning,
-      description: appLocalizations.effortlessEventPlanningDescription,
-      buttonText: appLocalizations.next,
+      title: _appLocalizations.effortlessEventPlanning,
+      description: _appLocalizations.effortlessEventPlanningDescription,
+      buttonText: _appLocalizations.next,
     ),
     OnboardingDm(
       imagePath: AppImages.onboardingPage4,
-      title: appLocalizations.connectWithFriendsAndShareMoments,
+      title: _appLocalizations.connectWithFriendsAndShareMoments,
       description:
-          appLocalizations.connectWithFriendsAndShareMomentsDescription,
-      buttonText: appLocalizations.getStarted,
+          _appLocalizations.connectWithFriendsAndShareMomentsDescription,
+      buttonText: _appLocalizations.getStarted,
     ),
   ];
   int _current = 0;
@@ -111,14 +111,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       SizedBox(height: 16),
                       settingsRow(
-                        text: appLocalizations.language,
+                        text: _appLocalizations.language,
                         firstButton: settingsButton(
                           onTap: () {
                             languageProvider.setLocale(const Locale("en"));
                           },
                           isSelected: isEnglish,
                           child: Text(
-                            appLocalizations.english,
+                            _appLocalizations.english,
                             style: isEnglish
                                 ? AppStyles.white14semiBold
                                 : AppStyles.mainColor14regular,
@@ -130,7 +130,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           isSelected: !isEnglish,
                           child: Text(
-                            appLocalizations.arabic,
+                            _appLocalizations.arabic,
                             style: !isEnglish
                                 ? AppStyles.white14semiBold
                                 : AppStyles.mainColor14regular,
@@ -139,7 +139,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       SizedBox(height: 16),
                       settingsRow(
-                        text: appLocalizations.theme,
+                        text: _appLocalizations.theme,
                         firstButton: settingsButton(
                           onTap: () {},
                           isSelected: true,
@@ -209,7 +209,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 );
               },
               child: Text(
-                appLocalizations.skip,
+                _appLocalizations.skip,
                 style: AppStyles.mainColor14semiBold,
               ),
             ),

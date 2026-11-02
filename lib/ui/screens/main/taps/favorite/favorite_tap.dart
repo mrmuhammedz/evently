@@ -1,9 +1,12 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/event_dm.dart';
+import 'package:evently/providers/user_provider.dart';
+import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
-import 'package:evently/ui/widgets/evently_text_field.dart';
+import 'package:evently/ui/widgets/evently_text_form_field.dart';
 import 'package:evently/ui/widgets/events_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteTap extends StatefulWidget {
   const FavoriteTap({super.key});
@@ -13,39 +16,66 @@ class FavoriteTap extends StatefulWidget {
 }
 
 class _FavoriteTapState extends State<FavoriteTap> {
-  String? searchText;
+  String? _searchText;
+  late final Stream<List<EventDm>> _eventsStream;
+  late final userProvider = context.watch<UserProvider>();
+  // late Future<List<EventDm>> _eventsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventsStream = EventService().getEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-    var filteredEvents = searchText == null
-        ? events
-        : events
-              .where(
-                (event) =>
-                    event.title.toLowerCase().contains(searchText!) ||
-                    event.description.toLowerCase().contains(searchText!),
-              )
-              .toList();
 
     return Column(
       children: [
         SizedBox(height: 16),
-        EventlyTextField(
-          hintText: appLocalizations.searchForEvent,
+        EventlyTextFormField(
+          label: appLocalizations.searchForEvent,
           suffixIcon: AppIcons.search,
+          textInputAction: TextInputAction.search,
           onChanged: (text) {
             setState(() {
-              searchText = text.trim().toLowerCase();
+              _searchText = text.trim().toLowerCase();
             });
           },
         ),
         SizedBox(height: 16),
-        EventsList(
-          // TODO get favorite events from firestore:
-          events: filteredEvents.where((event) => event.userId == "1").toList(),
+        StreamBuilder<List<EventDm>>(
+          stream: _eventsStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData ||
+                filteredEvents(snapshot.data ?? []).isEmpty) {
+              return Center(child: Text(appLocalizations.noEventsFound));
+            }
+            return EventsList(events: filteredEvents(snapshot.data ?? []));
+          },
         ),
       ],
     );
+  }
+
+  List<EventDm> filteredEvents(List<EventDm> filteredEvents) {
+    final filteredEventsList = filteredEvents
+        .where((event) => userProvider.isFavorite(event.id))
+        .toList();
+
+    return _searchText == null
+        ? filteredEventsList
+        : filteredEventsList
+              .where(
+                (event) =>
+                    event.title.toLowerCase().contains(_searchText!) ||
+                    event.description.toLowerCase().contains(_searchText!),
+              )
+              .toList();
   }
 }

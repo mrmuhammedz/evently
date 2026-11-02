@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/services/auth_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
-import 'package:evently/models/user_dm.dart';
 import 'package:evently/ui/widgets/login_register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final Map<String, TextEditingController> controllers = {
+  final Map<String, TextEditingController> _controllers = {
     "name": TextEditingController(),
     "email": TextEditingController(),
     "password": TextEditingController(),
@@ -37,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       onTap: () {
         _register(appLocalizations);
       },
-      controllers: controllers,
+      controllers: _controllers,
       errorMessages: _errorMessages,
       isLoginOrRegisterLoading: _isLoading,
       formKey: _formKey,
@@ -46,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    controllers.forEach((key, value) {
+    _controllers.forEach((key, value) {
       value.dispose();
     });
     super.dispose();
@@ -61,21 +60,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     try {
-      final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: controllers["email"]!.text.trim(),
-            password: controllers["password"]!.text,
-          );
-
-      UserDm user = UserDm(
-        id: credential.user!.uid,
-        name: controllers["name"]!.text.trim(),
-        email: controllers["email"]!.text.trim(),
+      await AuthService().createUserWithEmailAndPassword(
+        name: _controllers["name"]!.text,
+        email: _controllers["email"]!.text,
+        password: _controllers["password"]!.text,
       );
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.id)
-          .set(user.toJson());
 
       if (!mounted) return;
       Navigator.pop(context);

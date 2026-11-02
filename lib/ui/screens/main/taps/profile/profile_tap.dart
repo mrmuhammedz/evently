@@ -22,72 +22,75 @@ class ProfileTap extends StatelessWidget {
     final currentLocale = languageProvider.locale.languageCode;
     final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 32),
-        UserImage(radius: 54, user: user),
-        SizedBox(height: 16),
-        Text(
-          user?.name ?? appLocalizations.guest,
-          style: AppStyles.mainText20semiBold,
-          textAlign: .center,
-        ),
-        SizedBox(height: 4),
-        Text(
-          user?.email ?? "",
-          style: AppStyles.secText14regular,
-          textAlign: .center,
-        ),
-        SizedBox(height: 32),
-        optionRow(
-          text: appLocalizations.profile,
-          action: SvgPicture.asset(
-            currentLocale == "en" ? AppIcons.arrowRight : AppIcons.arrowLeft,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 32),
+          UserImage(radius: 54, user: user),
+          SizedBox(height: 16),
+          Text(
+            user?.name ?? appLocalizations.guest,
+            style: AppStyles.mainText20semiBold,
+            textAlign: .center,
           ),
-          onTap: () {
-            // Handle profile option tap
-          },
-        ),
-        SizedBox(height: 16),
-        optionRow(
-          text: appLocalizations.darkMode,
-          action: EventlySwitch(value: false),
-          onTap: () {
-            // Handle dark mode option tap
-          },
-        ),
-        SizedBox(height: 16),
-        optionRow(
-          text: appLocalizations.language,
-          action: Text(
-            currentLocale == "en"
-                ? appLocalizations.english
-                : appLocalizations.arabic,
-            style: AppStyles.mainColor16medium,
+          SizedBox(height: 4),
+          Text(
+            user?.email ?? "",
+            style: AppStyles.secText14regular,
+            textAlign: .center,
           ),
-          onTap: () {
-            final newLocale = currentLocale == "en"
-                ? const Locale("ar")
-                : const Locale("en");
-            languageProvider.setLocale(newLocale);
-          },
-        ),
-        SizedBox(height: 16),
-        optionRow(
-          text: appLocalizations.logout,
-          action: SvgPicture.asset(AppIcons.logout),
-          onTap: () => logoutDialog(
-            context: context,
-            appLocalizations: appLocalizations,
-            userProvider: userProvider,
+          SizedBox(height: 32),
+          optionRow(
+            text: appLocalizations.profile,
+            action: SvgPicture.asset(
+              currentLocale == "en" ? AppIcons.arrowRight : AppIcons.arrowLeft,
+            ),
+            onTap: () {
+              // Handle profile option tap
+            },
           ),
-        ),
-      ],
+          SizedBox(height: 16),
+          optionRow(
+            text: appLocalizations.darkMode,
+            action: EventlySwitch(value: false),
+            onTap: () {
+              // Handle dark mode option tap
+            },
+          ),
+          SizedBox(height: 16),
+          optionRow(
+            text: appLocalizations.language,
+            action: Text(
+              currentLocale == "en"
+                  ? appLocalizations.english
+                  : appLocalizations.arabic,
+              style: AppStyles.mainColor16medium,
+            ),
+            onTap: () {
+              final newLocale = currentLocale == "en"
+                  ? const Locale("ar")
+                  : const Locale("en");
+              languageProvider.setLocale(newLocale);
+            },
+          ),
+          SizedBox(height: 16),
+          optionRow(
+            text: appLocalizations.logout,
+            action: SvgPicture.asset(AppIcons.logout),
+            onTap: () => logoutDialog(
+              context: context,
+              appLocalizations: appLocalizations,
+              userProvider: userProvider,
+            ),
+          ),
+          SizedBox(height: 16),
+        ],
+      ),
     );
   }
 
-  Future<dynamic> logoutDialog({
+  Future<void> logoutDialog({
     required BuildContext context,
     required AppLocalizations appLocalizations,
     required UserProvider userProvider,

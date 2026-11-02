@@ -13,8 +13,7 @@ class EventsList extends StatelessWidget {
       child: ListView.separated(
         itemCount: events.length,
         itemBuilder: (_, index) => EventCard(
-          events: events,
-          index: index,
+          event: events[index],
         ),
         separatorBuilder: (_, _) => SizedBox(height: 16),
       ),

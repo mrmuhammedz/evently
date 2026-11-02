@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/services/auth_service.dart';
 import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/widgets/login_register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -60,16 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserDm user = await AuthService().loginUserByEmailAndPassword(
         email: _controllers["email"]!.text.trim(),
-        password: _controllers["password"]!.text,
+        password: _controllers["password"]!.text.trim(),
       );
-
-      final userDoc = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(credential.user!.uid)
-          .get();
-      UserDm user = UserDm.fromJson(userDoc.data() as Map<String, dynamic>);
 
       if (!mounted) return;
       context.read<UserProvider>().setUser(user);
