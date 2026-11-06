@@ -5,10 +5,9 @@ import 'package:evently/ui/screens/main/taps/profile/profile_tap.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
-import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,11 +18,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  final List<Widget> _taps = const [
-    HomeTap(),
-    FavoriteTap(),
-    ProfileTap(),
-  ];
+  final List<Widget> _taps = const [HomeTap(), FavoriteTap(), ProfileTap()];
+  ThemeData get _theme => Theme.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +64,6 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: _currentIndex,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedItemColor: AppColors.mainColor,
-        unselectedItemColor: AppColors.disable,
-        selectedLabelStyle: AppStyles.mainColor12regular,
-        unselectedLabelStyle: AppStyles.disable12regular,
-        backgroundColor: AppColors.white,
       ),
     );
   }
@@ -84,14 +75,8 @@ class _MainScreenState extends State<MainScreen> {
   }) {
     return BottomNavigationBarItem(
       label: label,
-      icon: SvgPicture.asset(
-        icon,
-        colorFilter: ColorFilter.mode(AppColors.disable, BlendMode.srcIn),
-      ),
-      activeIcon: SvgPicture.asset(
-        activeIcon,
-        colorFilter: ColorFilter.mode(AppColors.mainColor, BlendMode.srcIn),
-      ),
+      icon: SvgAsset(asset: icon, color: AppColors.disable),
+      activeIcon: SvgAsset(asset: activeIcon, color: _theme.primaryColor),
       tooltip: label,
     );
   }
@@ -104,19 +89,16 @@ class _MainScreenState extends State<MainScreen> {
           BoxShadow(
             blurRadius: 12,
             offset: const Offset(0, 4),
-            color: AppColors.mainColor.withValues(alpha: 0.56),
+            color: _theme.primaryColor.withValues(alpha: 0.56),
           ),
         ],
       ),
       child: FloatingActionButton(
-        elevation: 0,
         onPressed: () {
           Navigator.push(context, AppRoutes.addEventRoute());
         },
-        backgroundColor: AppColors.mainColor,
-        shape: CircleBorder(),
         tooltip: appLocalizations.addEvent,
-        child: Icon(Icons.add, color: AppColors.white),
+        child: Icon(Icons.add),
       ),
     );
   }

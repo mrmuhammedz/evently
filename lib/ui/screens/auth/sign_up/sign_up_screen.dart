@@ -31,6 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+
     return LoginRegisterScreen(
       mode: AuthMode.register,
       onTap: () {

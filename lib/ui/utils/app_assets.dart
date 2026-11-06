@@ -4,16 +4,22 @@ abstract final class AppImages {
   static const String google = '${_path}google.png';
   static const String logo = '${_path}logo.png';
   static const String eventlyLogo = '${_path}evently_logo.png';
-  static const String onboardingPage1 = '${_path}light_images/onboarding1.png';
-  static const String onboardingPage2 = '${_path}light_images/onboarding2.png';
-  static const String onboardingPage3 = '${_path}light_images/onboarding3.png';
-  static const String onboardingPage4 = '${_path}light_images/onboarding4.png';
+  static const String onboardingPage1 = '${_path}onboarding1.png';
+  static const String onboardingPage2 = '${_path}onboarding2.png';
+  static const String onboardingPage3 = '${_path}onboarding3.png';
+  static const String onboardingPage4 = '${_path}onboarding4.png';
+  static const String changeSetting = '${_path}change_setting.png';
   static const String birthday = '${_path}light_images/birthday.png';
   static const String bookClub = '${_path}light_images/book_club.png';
-  static const String changeSetting = '${_path}light_images/change_setting.png';
   static const String exhibition = '${_path}light_images/exhibition.png';
   static const String meeting = '${_path}light_images/meeting.png';
   static const String sport = '${_path}light_images/sport.png';
+  // Dark theme images
+  static const String darkBirthday = '${_path}dark_images/birthday.png';
+  static const String darkBookClub = '${_path}dark_images/book_club.png';
+  static const String darkExhibition = '${_path}dark_images/exhibition.png';
+  static const String darkMeeting = '${_path}dark_images/meeting.png';
+  static const String darkSport = '${_path}dark_images/sport.png';
 }
 
 abstract final class AppIcons {
@@ -37,7 +43,6 @@ abstract final class AppIcons {
   static const String filledHandshake = '${_path}filled_handshake.svg';
   static const String filledHeart = '${_path}filled_heart.svg';
   static const String filledHome = '${_path}filled_home.svg';
-  static const String filledSun = '${_path}filled_sun.svg';
   static const String filledUser = '${_path}filled_user.svg';
   static const String grid = '${_path}grid.svg';
   static const String handshake = '${_path}handshake.svg';

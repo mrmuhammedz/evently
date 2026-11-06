@@ -1,12 +1,13 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/providers/language_provider.dart';
+import 'package:evently/providers/theme_provider.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
+import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:evently/ui/widgets/user_image.dart';
 import 'package:evently/ui/utils/app_assets.dart';
-import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/utils/app_styles.dart';
-import 'package:evently/ui/widgets/evently_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,9 @@ class ProfileTap extends StatelessWidget {
     final userProvider = context.watch<UserProvider>();
     final user = userProvider.user;
     final languageProvider = context.watch<LanguageProvider>();
-    final currentLocale = languageProvider.locale.languageCode;
+    final currentLocale = languageProvider.locale;
+    final themeProvider = context.watch<ThemeProvider>();
+    final theme = Theme.of(context);
     final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
 
     return SingleChildScrollView(
@@ -31,20 +34,28 @@ class ProfileTap extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             user?.name ?? appLocalizations.guest,
-            style: AppStyles.mainText20semiBold,
+            style: AppStyles.semiBoldTextStyle20.copyWith(
+              color: theme.colorScheme.onSecondary,
+            ),
             textAlign: .center,
           ),
           SizedBox(height: 4),
           Text(
             user?.email ?? "",
-            style: AppStyles.secText14regular,
+            style: AppStyles.regularTextStyle14.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: .center,
           ),
           SizedBox(height: 32),
           optionRow(
+            theme: theme,
             text: appLocalizations.profile,
-            action: SvgPicture.asset(
-              currentLocale == "en" ? AppIcons.arrowRight : AppIcons.arrowLeft,
+            action: SvgAsset(
+              asset: currentLocale == "en"
+                  ? AppIcons.arrowRight
+                  : AppIcons.arrowLeft,
+              color: theme.primaryColor,
             ),
             onTap: () {
               // Handle profile option tap
@@ -52,33 +63,37 @@ class ProfileTap extends StatelessWidget {
           ),
           SizedBox(height: 16),
           optionRow(
-            text: appLocalizations.darkMode,
-            action: EventlySwitch(value: false),
-            onTap: () {
-              // Handle dark mode option tap
-            },
+            theme: theme,
+            text: appLocalizations.theme,
+            action: ThemeDropdown(
+              appLocalizations: appLocalizations,
+              themeProvider: themeProvider,
+            ),
           ),
           SizedBox(height: 16),
           optionRow(
+            theme: theme,
             text: appLocalizations.language,
             action: Text(
               currentLocale == "en"
                   ? appLocalizations.english
                   : appLocalizations.arabic,
-              style: AppStyles.mainColor16medium,
+              style: AppStyles.mediumTextStyle16.copyWith(
+                color: theme.primaryColor,
+              ),
             ),
             onTap: () {
-              final newLocale = currentLocale == "en"
-                  ? const Locale("ar")
-                  : const Locale("en");
+              final newLocale = currentLocale == "en" ? "ar" : "en";
               languageProvider.setLocale(newLocale);
             },
           ),
           SizedBox(height: 16),
           optionRow(
+            theme: theme,
             text: appLocalizations.logout,
             action: SvgPicture.asset(AppIcons.logout),
             onTap: () => logoutDialog(
+              theme: theme,
               context: context,
               appLocalizations: appLocalizations,
               userProvider: userProvider,
@@ -94,19 +109,32 @@ class ProfileTap extends StatelessWidget {
     required BuildContext context,
     required AppLocalizations appLocalizations,
     required UserProvider userProvider,
+    required ThemeData theme,
   }) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: AppColors.white,
-          title: Text(appLocalizations.logout),
-          content: Text(appLocalizations.logoutConfirmation, style: AppStyles.mainText16medium),
+          title: Text(
+            appLocalizations.logout,
+            style: TextStyle().copyWith(color: theme.colorScheme.onSecondary),
+          ),
+          content: Text(
+            appLocalizations.logoutConfirmation,
+            style: AppStyles.mediumTextStyle16.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(), // Close the dialog
-              
-              child: Text(appLocalizations.cancel, style: AppStyles.mainColor14semiBold),
+
+              child: Text(
+                appLocalizations.cancel,
+                style: AppStyles.semiBoldTextStyle14.copyWith(
+                  color: theme.primaryColor,
+                ),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -114,7 +142,12 @@ class ProfileTap extends StatelessWidget {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.pushReplacement(context, AppRoutes.loginRoute());
               },
-              child: Text(appLocalizations.confirm, style: AppStyles.mainColor14semiBold),
+              child: Text(
+                appLocalizations.confirm,
+                style: AppStyles.semiBoldTextStyle14.copyWith(
+                  color: theme.primaryColor,
+                ),
+              ),
             ),
           ],
         );
@@ -125,21 +158,27 @@ class ProfileTap extends StatelessWidget {
   Widget optionRow({
     required String text,
     required Widget action,
-    required Function onTap,
+    Function()? onTap,
+    required ThemeData theme,
   }) {
     return GestureDetector(
-      onTap: () => onTap(),
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.stroke),
-          color: AppColors.white,
+          border: Border.all(color: theme.colorScheme.outline),
+          color: theme.colorScheme.surface,
         ),
         child: Row(
           children: [
-            Text(text, style: AppStyles.mainText16medium),
+            Text(
+              text,
+              style: AppStyles.mediumTextStyle16.copyWith(
+                color: theme.colorScheme.onSecondary,
+              ),
+            ),
             Spacer(),
             action,
           ],

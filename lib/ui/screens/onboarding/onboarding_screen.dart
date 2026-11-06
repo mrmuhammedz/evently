@@ -1,6 +1,9 @@
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/onboarding_dm.dart';
 import 'package:evently/providers/language_provider.dart';
+import 'package:evently/providers/theme_provider.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
+import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:provider/provider.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
@@ -10,7 +13,6 @@ import 'package:evently/ui/widgets/evently_header.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/evently_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widgets/evently_scaffold.dart';
@@ -25,6 +27,8 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
   AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
+  ThemeData get _theme => Theme.of(context);
+  ThemeProvider get _themeProvider => context.read<ThemeProvider>();
   List<OnboardingDm> get _onboardingList => [
     OnboardingDm(
       imagePath: AppImages.onboardingPage1,
@@ -57,7 +61,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final languageProvider = context.watch<LanguageProvider>();
-    final isEnglish = languageProvider.locale.languageCode == "en";
 
     return EventlyScaffold(
       child: Column(
@@ -70,9 +73,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: pageViewBuilder(
               controller: _controller,
               itemBuilder: (_, index) {
-                return Image.asset(
-                  _onboardingList[index].imagePath,
-                  fit: BoxFit.fitWidth,
+                return ImageIcon(
+                  AssetImage(_onboardingList[index].imagePath),
+                  color: _theme.colorScheme.onSurface,
                 );
               },
             ),
@@ -89,71 +92,86 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   curve: Curves.easeInOut,
                 );
               },
-              effect: ExpandingDotsEffect(dotWidth: 8, dotHeight: 8),
+              effect: ExpandingDotsEffect(
+                dotWidth: 8,
+                dotHeight: 8,
+                activeDotColor: _theme.primaryColor,
+                dotColor: _themeProvider.isDarkMode(context)
+                    ? AppColors.white
+                    : AppColors.disable,
+              ),
             ),
           SizedBox(height: 16),
           Expanded(
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                Text(
-                  _onboardingList[_current].title,
-                  style: AppStyles.mainText20semiBold,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  _onboardingList[_current].description,
-                  style: AppStyles.secText16regularH,
-                ),
-                if (_current == 0)
-                  Column(
-                    crossAxisAlignment: .stretch,
-                    children: [
-                      SizedBox(height: 16),
-                      settingsRow(
-                        text: _appLocalizations.language,
-                        firstButton: settingsButton(
-                          onTap: () {
-                            languageProvider.setLocale(const Locale("en"));
-                          },
-                          isSelected: isEnglish,
-                          child: Text(
-                            _appLocalizations.english,
-                            style: isEnglish
-                                ? AppStyles.white14semiBold
-                                : AppStyles.mainColor14regular,
-                          ),
-                        ),
-                        secondButton: settingsButton(
-                          onTap: () {
-                            languageProvider.setLocale(const Locale("ar"));
-                          },
-                          isSelected: !isEnglish,
-                          child: Text(
-                            _appLocalizations.arabic,
-                            style: !isEnglish
-                                ? AppStyles.white14semiBold
-                                : AppStyles.mainColor14regular,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      settingsRow(
-                        text: _appLocalizations.theme,
-                        firstButton: settingsButton(
-                          onTap: () {},
-                          isSelected: true,
-                          child: SvgPicture.asset(AppIcons.filledSun),
-                        ),
-                        secondButton: settingsButton(
-                          onTap: () {},
-                          isSelected: false,
-                          child: SvgPicture.asset(AppIcons.moon),
-                        ),
-                      ),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Text(
+                    _onboardingList[_current].title,
+                    style: AppStyles.semiBoldTextStyle20.copyWith(
+                      color: _theme.colorScheme.onSecondary,
+                    ),
                   ),
-              ],
+                  SizedBox(height: 8),
+                  Text(
+                    _onboardingList[_current].description,
+                    style: AppStyles.regularTextStyle16H.copyWith(
+                      color: _theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  if (_current == 0)
+                    Column(
+                      crossAxisAlignment: .stretch,
+                      children: [
+                        SizedBox(height: 16),
+                        settingsRow(
+                          text: _appLocalizations.language,
+                          children: [
+                            settingsButton(
+                              onTap: () {
+                                languageProvider.setLocale("en");
+                              },
+                              isSelected: languageProvider.isEnglish,
+                              child: Text(
+                                _appLocalizations.english,
+                                style: languageProvider.isEnglish
+                                    ? AppStyles.semiBoldTextStyle14.copyWith(
+                                        color: AppColors.white,
+                                      )
+                                    : AppStyles.regularTextStyle14,
+                              ),
+                            ),
+                            settingsButton(
+                              onTap: () {
+                                languageProvider.setLocale("ar");
+                              },
+                              isSelected: !languageProvider.isEnglish,
+                              child: Text(
+                                _appLocalizations.arabic,
+                                style: !languageProvider.isEnglish
+                                    ? AppStyles.semiBoldTextStyle14.copyWith(
+                                        color: AppColors.white,
+                                      )
+                                    : AppStyles.regularTextStyle14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        settingsRow(
+                          text: _appLocalizations.theme,
+                          children: [
+                            ThemeDropdown(
+                              appLocalizations: _appLocalizations,
+                              themeProvider: _themeProvider,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 16),
@@ -170,7 +188,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             },
             child: Text(
               _onboardingList[_current].buttonText,
-              style: AppStyles.white20medium,
+              style: AppStyles.mediumTextStyle20.copyWith(
+                color: AppColors.white,
+              ),
             ),
           ),
           SizedBox(height: 28),
@@ -180,7 +200,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget header() => EventlyHeader(
-    center: Image.asset(AppImages.logo),
+    center: ImageIcon(
+      AssetImage(AppImages.logo),
+      color: _theme.primaryColor,
+      size: double.infinity,
+    ),
     leading: _current > 1
         ? ButtonWidget(
             onTap: () {
@@ -189,10 +213,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 curve: Curves.easeInOut,
               );
             },
-            child: SvgPicture.asset(
-              Localizations.localeOf(context).languageCode == "en"
+            child: SvgAsset(
+              asset: Localizations.localeOf(context).languageCode == "en"
                   ? AppIcons.arrowLeft
                   : AppIcons.arrowRight,
+              color: _theme.colorScheme.onSurface,
             ),
           )
         : null,
@@ -210,7 +235,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               },
               child: Text(
                 _appLocalizations.skip,
-                style: AppStyles.mainColor14semiBold,
+                style: AppStyles.semiBoldTextStyle14.copyWith(
+                  color: _theme.colorScheme.onSurface,
+                ),
               ),
             ),
           ]
@@ -237,16 +264,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Row settingsRow({
-    required String text,
-    required Widget firstButton,
-    required Widget secondButton,
-  }) {
+  Row settingsRow({required String text, required List<Widget> children}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(text, style: AppStyles.mainColor18medium),
-        Row(children: [firstButton, SizedBox(width: 8), secondButton]),
+        Text(text, style: AppStyles.mediumTextStyle18),
+        Row(spacing: 8, children: children),
       ],
     );
   }
@@ -265,9 +288,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         padding: EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 5.5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isSelected ? AppColors.mainColor : AppColors.white,
+          color: isSelected ? _theme.primaryColor : _theme.colorScheme.surface,
           border: Border.all(
-            color: isSelected ? Colors.transparent : AppColors.stroke,
+            color: isSelected ? Colors.transparent : _theme.colorScheme.outline,
           ),
         ),
         child: child,

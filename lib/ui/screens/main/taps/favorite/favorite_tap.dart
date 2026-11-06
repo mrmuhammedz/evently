@@ -18,8 +18,7 @@ class FavoriteTap extends StatefulWidget {
 class _FavoriteTapState extends State<FavoriteTap> {
   String? _searchText;
   late final Stream<List<EventDm>> _eventsStream;
-  late final userProvider = context.watch<UserProvider>();
-  // late Future<List<EventDm>> _eventsFuture;
+  UserProvider get _userProvider => context.watch<UserProvider>();
 
   @override
   void initState() {
@@ -37,6 +36,7 @@ class _FavoriteTapState extends State<FavoriteTap> {
         EventlyTextFormField(
           label: appLocalizations.searchForEvent,
           suffixIcon: AppIcons.search,
+          suffixIconColor: Theme.of(context).primaryColor,
           textInputAction: TextInputAction.search,
           onChanged: (text) {
             setState(() {
@@ -64,13 +64,13 @@ class _FavoriteTapState extends State<FavoriteTap> {
   }
 
   List<EventDm> filteredEvents(List<EventDm> filteredEvents) {
-    final filteredEventsList = filteredEvents
-        .where((event) => userProvider.isFavorite(event.id))
+    final favoritesEvents = filteredEvents
+        .where((event) => _userProvider.isFavorite(event.id))
         .toList();
 
     return _searchText == null
-        ? filteredEventsList
-        : filteredEventsList
+        ? favoritesEvents
+        : favoritesEvents
               .where(
                 (event) =>
                     event.title.toLowerCase().contains(_searchText!) ||

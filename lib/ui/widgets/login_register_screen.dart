@@ -42,13 +42,14 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   bool _isGoogleLoading = false;
   late final _isRegister = widget.mode == AuthMode.register;
   bool get _isBusy => widget.isLoginOrRegisterLoading || _isGoogleLoading;
+  ThemeData get _theme => Theme.of(context);
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context)!;
     final buttonText = _isRegister
-        ? appLocalizations.signUp
-        : appLocalizations.login;
+        ? _appLocalizations.signUp
+        : _appLocalizations.login;
 
     return EventlyScaffold(
       child: Form(
@@ -58,30 +59,31 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
             crossAxisAlignment: .stretch,
             children: [
               SizedBox(height: 16),
-              Image.asset(AppImages.logo),
+              ImageIcon(
+                AssetImage(AppImages.logo),
+                size: 26,
+                color: _theme.primaryColor,
+              ),
               SizedBox(height: 48),
               Text(
                 _isRegister
-                    ? appLocalizations.createYourAccount
-                    : appLocalizations.loginToYourAccount,
+                    ? _appLocalizations.createYourAccount
+                    : _appLocalizations.loginToYourAccount,
                 style: AppStyles.mainColor24semiBold,
               ),
               SizedBox(height: 24),
-              if (_isRegister) ...[
-                nameField(appLocalizations),
-                SizedBox(height: 16),
-              ],
-              emailField(appLocalizations),
+              if (_isRegister) ...[nameField(), SizedBox(height: 16)],
+              emailField(),
               SizedBox(height: 16),
-              passwordField(appLocalizations),
+              passwordField(),
               if (_isRegister) ...[
                 SizedBox(height: 16),
-                confirmPasswordField(appLocalizations),
+                confirmPasswordField(),
                 SizedBox(height: 4),
               ],
               if (!_isRegister) ...[
                 SizedBox(height: 8),
-                forgetPasswordButton(context, appLocalizations),
+                forgetPasswordButton(),
               ],
               SizedBox(height: 47),
               loginRegisterButton(buttonText),
@@ -90,28 +92,18 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 Text(
                   widget.errorMessages["default"]!,
                   textAlign: TextAlign.center,
-                  style: AppStyles.red14regular,
+                  style: AppStyles.regularTextStyle14.copyWith(
+                    color: AppColors.red,
+                  ),
                 ),
                 SizedBox(height: 8),
               ],
               SizedBox(height: 48),
-              loginRegisterSwitchButton(_isRegister, appLocalizations, context),
+              loginRegisterSwitchButton(),
               SizedBox(height: 32),
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(thickness: 1, color: AppColors.stroke),
-                  ),
-                  SizedBox(width: 16),
-                  Text(appLocalizations.or, style: AppStyles.mainColor16medium),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Divider(thickness: 1, color: AppColors.stroke),
-                  ),
-                ],
-              ),
+              dividerRow(),
               SizedBox(height: 24),
-              loginRegisterWithGoogleButton(appLocalizations, _isRegister),
+              loginRegisterWithGoogleButton(),
               SizedBox(height: 16),
             ],
           ),
@@ -120,57 +112,75 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     );
   }
 
-  AbsorbPointer loginRegisterWithGoogleButton(
-    AppLocalizations appLocalizations,
-    bool isRegister,
-  ) {
+  Row dividerRow() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(thickness: 1, color: _theme.colorScheme.outline),
+        ),
+        SizedBox(width: 16),
+        Text(
+          _appLocalizations.or,
+          style: AppStyles.mediumTextStyle16.copyWith(
+            color: _theme.primaryColor,
+          ),
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: Divider(thickness: 1, color: _theme.colorScheme.outline),
+        ),
+      ],
+    );
+  }
+
+  AbsorbPointer loginRegisterWithGoogleButton() {
     return AbsorbPointer(
       absorbing: _isBusy,
       child: Opacity(
         opacity: widget.isLoginOrRegisterLoading ? 0.6 : 1,
         child: EventlyButton(
-          backgroundColor: AppColors.white,
+          bgColor: _theme.colorScheme.surface,
           onPresses: () {
-            _onTapGoogle(appLocalizations);
+            _onTapGoogle();
           },
           prefixIcon: _isGoogleLoading ? null : AppImages.google,
           child: _isGoogleLoading
-              ? CircularProgressIndicator(color: AppColors.mainColor)
+              ? CircularProgressIndicator(color: _theme.primaryColor)
               : Text(
-                  isRegister
-                      ? appLocalizations.signUpWithGoogle
-                      : appLocalizations.loginWithGoogle,
-                  style: AppStyles.mainColor18medium,
+                  _isRegister
+                      ? _appLocalizations.signUpWithGoogle
+                      : _appLocalizations.loginWithGoogle,
+                  style: AppStyles.mediumTextStyle18,
                 ),
         ),
       ),
     );
   }
 
-  Row loginRegisterSwitchButton(
-    bool isRegister,
-    AppLocalizations appLocalizations,
-    BuildContext context,
-  ) {
+  Row loginRegisterSwitchButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          isRegister
-              ? appLocalizations.alreadyHaveAnAccount
-              : appLocalizations.dontHaveAnAccount,
-          style: AppStyles.secText14regular,
+          _isRegister
+              ? _appLocalizations.alreadyHaveAnAccount
+              : _appLocalizations.dontHaveAnAccount,
+          style: AppStyles.regularTextStyle14.copyWith(
+            color: _theme.colorScheme.onSurfaceVariant,
+          ),
         ),
         GestureDetector(
           onTap: () {
-            isRegister
+            _isRegister
                 ? Navigator.pop(context)
                 : Navigator.push(context, AppRoutes.signUpRoute());
           },
           child: Text(
-            isRegister ? appLocalizations.login : appLocalizations.signUp,
-            style: AppStyles.mainColor14semiBold.copyWith(
+            _isRegister ? _appLocalizations.login : _appLocalizations.signUp,
+            style: AppStyles.semiBoldTextStyle14.copyWith(
               decoration: .underline,
+              color: _theme.primaryColor,
+              decorationColor: _theme.primaryColor,
             ),
           ),
         ),
@@ -191,16 +201,18 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
           },
           child: widget.isLoginOrRegisterLoading
               ? CircularProgressIndicator(color: AppColors.white)
-              : Text(buttonText, style: AppStyles.white20medium),
+              : Text(
+                  buttonText,
+                  style: AppStyles.mediumTextStyle20.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
         ),
       ),
     );
   }
 
-  Align forgetPasswordButton(
-    BuildContext context,
-    AppLocalizations appLocalizations,
-  ) {
+  Align forgetPasswordButton() {
     return Align(
       alignment: AlignmentGeometry.centerEnd,
       child: GestureDetector(
@@ -208,58 +220,66 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
           Navigator.push(context, AppRoutes.forgetPasswordRoute());
         },
         child: Text(
-          appLocalizations.forgetPassword1,
-          style: AppStyles.mainColor14semiBold.copyWith(decoration: .underline),
+          _appLocalizations.forgetPassword1,
+          style: AppStyles.semiBoldTextStyle14.copyWith(
+            decoration: .underline,
+            color: _theme.primaryColor,
+            decorationColor: _theme.primaryColor,
+          ),
         ),
       ),
     );
   }
 
-  EventlyTextFormField confirmPasswordField(AppLocalizations appLocalizations) {
+  EventlyTextFormField confirmPasswordField() {
     return EventlyTextFormField(
-      label: appLocalizations.confirmYourPassword,
+      label: _appLocalizations.confirmYourPassword,
       prefixIcon: AppIcons.lock,
       suffixIcon: AppIcons.eye,
+      suffixIconColor: AppColors.disable,
       suffixIconInactive: AppIcons.eyeSlash,
       controller: widget.controllers["confirmPassword"],
       obscureText: true,
       textInputAction: TextInputAction.done,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return appLocalizations.pleaseEnterYourPassword;
+          return _appLocalizations.pleaseEnterYourPassword;
         }
         if (value != widget.controllers["password"]!.text) {
-          return appLocalizations.passwordsDontMatch;
+          return _appLocalizations.passwordsDontMatch;
         }
         return null;
       },
     );
   }
 
-  EventlyTextFormField passwordField(AppLocalizations appLocalizations) {
+  EventlyTextFormField passwordField() {
     return EventlyTextFormField(
-      label: appLocalizations.enterYourPassword,
+      label: _appLocalizations.enterYourPassword,
       prefixIcon: AppIcons.lock,
       suffixIcon: AppIcons.eye,
+      suffixIconColor: AppColors.disable,
       suffixIconInactive: AppIcons.eyeSlash,
       obscureText: true,
-      textInputAction: _isRegister ? TextInputAction.next : TextInputAction.done,
+      textInputAction: _isRegister
+          ? TextInputAction.next
+          : TextInputAction.done,
       controller: widget.controllers["password"],
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return appLocalizations.pleaseEnterYourPassword;
+          return _appLocalizations.pleaseEnterYourPassword;
         }
         if (value.length < 6) {
-          return appLocalizations.passwordMustBeAtLeast6Characters;
+          return _appLocalizations.passwordMustBeAtLeast6Characters;
         }
         return null;
       },
     );
   }
 
-  EventlyTextFormField emailField(AppLocalizations appLocalizations) {
+  EventlyTextFormField emailField() {
     return EventlyTextFormField(
-      label: appLocalizations.enterYourEmail,
+      label: _appLocalizations.enterYourEmail,
       prefixIcon: AppIcons.sms,
       controller: widget.controllers["email"],
       keyboardType: TextInputType.emailAddress,
@@ -272,35 +292,35 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
           return error;
         }
         if (value == null || value.trim().isEmpty) {
-          return appLocalizations.pleaseEnterYourEmail;
+          return _appLocalizations.pleaseEnterYourEmail;
         }
         if (!value.contains("@")) {
-          return appLocalizations.pleaseEnterValidEmail;
+          return _appLocalizations.pleaseEnterValidEmail;
         }
         return null;
       },
     );
   }
 
-  EventlyTextFormField nameField(AppLocalizations appLocalizations) {
+  EventlyTextFormField nameField() {
     return EventlyTextFormField(
-      label: appLocalizations.enterYourName,
+      label: _appLocalizations.enterYourName,
       prefixIcon: AppIcons.user,
       controller: widget.controllers["name"],
       textInputAction: TextInputAction.next,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return appLocalizations.pleaseEnterYourName;
+          return _appLocalizations.pleaseEnterYourName;
         }
         if (value.trim().length < 2) {
-          return appLocalizations.nameMustBeAtLeast2Characters;
+          return _appLocalizations.nameMustBeAtLeast2Characters;
         }
         return null;
       },
     );
   }
 
-  Future<void> _onTapGoogle(AppLocalizations appLocalizations) async {
+  Future<void> _onTapGoogle() async {
     if (_isBusy) return;
 
     setState(() {
@@ -309,7 +329,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     });
 
     try {
-      UserDm user = await AuthService().createUserByGoogle();
+      UserDm user = await AuthService().createUserByGoogle().timeout(
+        const Duration(seconds: 30),
+      );
 
       if (!mounted) return;
       context.read<UserProvider>().setUser(user);
@@ -318,22 +340,23 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled) return;
       setState(() {
-        widget.errorMessages["default"] = appLocalizations.unableToSignUp;
+        widget.errorMessages["default"] = _appLocalizations.unableToSignUp;
       });
     } on FirebaseAuthException catch (e) {
       setState(() {
         widget.errorMessages["default"] = switch (e.code) {
           "account-exists-with-different-credential" =>
-            appLocalizations.thisAccountAlreadyExists,
-          "invalid-credential" => appLocalizations.invalidGoogleCredentials,
-          "operation-not-allowed" => appLocalizations.googleSignInIsNotEnabled,
-          "user-disabled" => appLocalizations.thisAccountHasBeenDisabled,
-          _ => appLocalizations.defaultErrorMessages,
+            _appLocalizations.thisAccountAlreadyExists,
+          "invalid-credential" => _appLocalizations.invalidGoogleCredentials,
+          "operation-not-allowed" => _appLocalizations.googleSignInIsNotEnabled,
+          "user-disabled" => _appLocalizations.thisAccountHasBeenDisabled,
+          _ => _appLocalizations.defaultErrorMessages,
         };
       });
     } catch (e) {
       setState(() {
-        widget.errorMessages["default"] = appLocalizations.defaultErrorMessages;
+        widget.errorMessages["default"] =
+            _appLocalizations.defaultErrorMessages;
       });
     } finally {
       if (mounted) {

@@ -69,6 +69,8 @@
     "guest": "Guest",
     "profile": "Profile",
     "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "systemTheme": "System Theme",
     "logout": "Logout",
     "logoutConfirmation": "Are you sure you want to logout?",
     "cancel": "Cancel",
@@ -79,6 +81,7 @@
     "pleaseEnterEventDescription": "Please enter event description",
     "pleaseSelectDateAndTime": "Please select date and time",
     "pleaseSelectTimeAtLeastOneHourAhead": "Please select a time at least one hour ahead",
+    "timedOut": "Timed out error. Please try again.",
     "noEventsFound": "No events found",
     "noFavoriteEventsFound": "No favorite events found",
     "eventEnded": "Event Ended"

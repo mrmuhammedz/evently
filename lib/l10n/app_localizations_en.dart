@@ -230,6 +230,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get darkMode => 'Dark Mode';
 
   @override
+  String get lightMode => 'Light Mode';
+
+  @override
+  String get systemTheme => 'System Theme';
+
+  @override
   String get logout => 'Logout';
 
   @override
@@ -259,6 +265,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pleaseSelectTimeAtLeastOneHourAhead =>
       'Please select a time at least one hour ahead';
+
+  @override
+  String get timedOut => 'Timed out error. Please try again.';
 
   @override
   String get noEventsFound => 'No events found';

@@ -59,7 +59,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get arabic => 'العربية';
 
   @override
-  String get theme => 'المظهر';
+  String get theme => 'السمة';
 
   @override
   String get createYourAccount => 'أنشئ حسابك';
@@ -232,6 +232,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get darkMode => 'الوضع الداكن';
 
   @override
+  String get lightMode => 'الوضع الفاتح';
+
+  @override
+  String get systemTheme => 'نظام الجهاز';
+
+  @override
   String get logout => 'تسجيل الخروج';
 
   @override
@@ -261,6 +267,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get pleaseSelectTimeAtLeastOneHourAhead =>
       'من فضلك اختر وقتًا على الأقل بعد ساعة من الآن';
+
+  @override
+  String get timedOut => 'انتهت المهلة. يرجى المحاولة مرة أخرى.';
 
   @override
   String get noEventsFound => 'لم يتم العثور على فعاليات';

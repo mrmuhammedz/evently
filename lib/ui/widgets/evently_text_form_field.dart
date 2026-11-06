@@ -1,5 +1,6 @@
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,6 +10,7 @@ class EventlyTextFormField extends StatefulWidget {
   final String? prefixIcon;
   final String? suffixIcon;
   final String? suffixIconInactive;
+  final Color? suffixIconColor;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
@@ -24,6 +26,7 @@ class EventlyTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.suffixIconInactive,
+    this.suffixIconColor,
     this.controller,
     this.validator,
     this.onChanged,
@@ -39,13 +42,15 @@ class EventlyTextFormField extends StatefulWidget {
 
 class _EventlyTextFormFieldState extends State<EventlyTextFormField> {
   late bool _isObscured = widget.obscureText;
-  final _border = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(16),
-    borderSide: BorderSide(color: AppColors.stroke),
-  );
+  ThemeData get _theme => Theme.of(context);
 
   @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: _theme.colorScheme.outline),
+    );
+
     return TextFormField(
       controller: widget.controller,
       validator: widget.validator,
@@ -54,27 +59,28 @@ class _EventlyTextFormFieldState extends State<EventlyTextFormField> {
       minLines: widget.minLines,
       maxLines: widget.minLines,
       obscureText: _isObscured,
-      style: AppStyles.mainText14regularH,
-      cursorColor: AppColors.mainColor,
-      cursorErrorColor: AppColors.red,
+      style: AppStyles.regularTextStyle14H.copyWith(
+        color: _theme.colorScheme.onSecondary,
+      ),
+      cursorColor: _theme.primaryColor,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: widget.onChanged,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: widget.minLines != 1 ? 16 : 8),
-        border: _border,
-        errorBorder: _border.copyWith(
-          borderSide: BorderSide(color: AppColors.red),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: widget.minLines != 1 ? 16 : 8,
         ),
-        disabledBorder: _border,
-        enabledBorder: _border,
-        focusedBorder: _border,
-        focusedErrorBorder: _border.copyWith(
-          borderSide: BorderSide(color: AppColors.red, width: 1.5),
+        border: border,
+        disabledBorder: border,
+        enabledBorder: border,
+        focusedBorder: border,
+        focusedErrorBorder: border.copyWith(
+          borderSide: BorderSide(width: 1.5, color: AppColors.red),
         ),
         labelText: widget.label,
-        labelStyle: AppStyles.secText14regular,
+        labelStyle: AppStyles.regularTextStyle14,
         hintText: widget.hintText,
-        hintStyle: AppStyles.secText14regular,
+        hintStyle: AppStyles.regularTextStyle14,
         prefixIcon: widget.prefixIcon != null
             ? Padding(
                 padding: const EdgeInsets.only(left: 12, right: 8),
@@ -92,14 +98,17 @@ class _EventlyTextFormFieldState extends State<EventlyTextFormField> {
                     : null,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 12, left: 8),
-                  child: SvgPicture.asset(
-                    _isObscured ? widget.suffixIconInactive! : widget.suffixIcon!,
+                  child: SvgAsset(
+                    asset: _isObscured
+                        ? widget.suffixIconInactive!
+                        : widget.suffixIcon!,
+                    color: widget.suffixIconColor,
                   ),
                 ),
               )
             : null,
         filled: true,
-        fillColor: AppColors.white,
+        fillColor: _theme.colorScheme.surface,
         prefixIconConstraints: BoxConstraints(maxHeight: 24),
         suffixIconConstraints: BoxConstraints(maxHeight: 24),
       ),

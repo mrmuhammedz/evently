@@ -1,6 +1,5 @@
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/ui/utils/app_assets.dart';
-import 'package:evently/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class UserImage extends StatelessWidget {
@@ -12,7 +11,7 @@ class UserImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: Theme.of(context).primaryColor,
       child: CircleAvatar(
         radius: radius - 2,
         backgroundImage: user?.photoUrl != null

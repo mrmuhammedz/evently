@@ -1,4 +1,3 @@
-import 'package:evently/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class EventlyScaffold extends StatelessWidget {
@@ -11,7 +10,6 @@ class EventlyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

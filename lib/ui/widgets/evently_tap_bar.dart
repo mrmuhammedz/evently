@@ -32,15 +32,15 @@ class _EventlyTapBarState extends State<EventlyTapBar> {
         },
         overlayColor: WidgetStatePropertyAll(Colors.transparent),
         labelPadding: EdgeInsets.only(right: 8),
-        indicator: const BoxDecoration(),
+        indicatorColor: Colors.transparent,
         dividerColor: Colors.transparent,
         tabAlignment: .start,
         isScrollable: true,
         tabs: widget.categories.map((category) {
           return CategoryTab(
             title: category.name,
-            icon: category.iconPath,
-            selectedIcon: category.selectedIconPath,
+            selectedIcon: category.iconPath,
+            icon: category.selectedIconPath,
             isSelected: _currentIndex == widget.categories.indexOf(category),
           );
         }).toList(),

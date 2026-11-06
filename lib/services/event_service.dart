@@ -32,10 +32,9 @@ class EventService {
       (snapshot) =>
           snapshot.docs.map((doc) => EventDm.fromJson(doc.data())).toList(),
     );
-    // .map((doc) => EventDm.fromJson(doc.data())).toList();
   }
 
-  Future<void> addEventtoFavorites(String eventId, UserDm user) async {
+  Future<void> addEventToFavorites(String eventId, UserDm user) async {
     final userRef = _firestore.collection('users').doc(user.id);
     await userRef.update({'favoritesEvents': user.favoritesEvents});
   }

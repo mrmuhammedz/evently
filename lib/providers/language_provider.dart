@@ -1,14 +1,15 @@
-import 'package:evently/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LanguageProvider extends ChangeNotifier {
-  Locale _locale = const Locale("en");
+  String _locale = 'en';
 
-  Locale get locale => _locale;
+  String get locale => _locale;
 
-  void setLocale(Locale locale) {
-    if (!AppLocalizations.supportedLocales.contains(locale)) return;
+  void setLocale(String locale) {
+    if (locale == _locale) return;
     _locale = locale;
     notifyListeners();
   }
+
+  bool get isEnglish => _locale == 'en';
 }

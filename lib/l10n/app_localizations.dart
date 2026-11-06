@@ -518,6 +518,18 @@ abstract class AppLocalizations {
   /// **'Dark Mode'**
   String get darkMode;
 
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @systemTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'System Theme'**
+  String get systemTheme;
+
   /// No description provided for @logout.
   ///
   /// In en, this message translates to:
@@ -577,6 +589,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select a time at least one hour ahead'**
   String get pleaseSelectTimeAtLeastOneHourAhead;
+
+  /// No description provided for @timedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Timed out error. Please try again.'**
+  String get timedOut;
 
   /// No description provided for @noEventsFound.
   ///

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/providers/user_provider.dart';
@@ -5,14 +6,15 @@ import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
+import 'package:evently/ui/widgets/category_image.dart';
 import 'package:evently/ui/widgets/evently_button.dart';
 import 'package:evently/ui/widgets/evently_header.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:evently/ui/widgets/evently_tap_bar.dart';
 import 'package:evently/ui/widgets/evently_text_form_field.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -28,12 +30,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _now = DateTime.now();
+  late DateTime _selectedDateTime;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
-  late DateTime _selectedDateTime;
   String? _errorMessage;
   bool _isLoading = false;
-  late final _appLocalizations = AppLocalizations.of(context)!;
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
+  ThemeData get _theme => Theme.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  categoryImage(),
+                  CategoryImage(id: _selectedCategory!),
                   const SizedBox(height: 16),
                   tapBar(),
                   const SizedBox(height: 16),
@@ -56,14 +59,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           addEventButton(),
           if (_errorMessage != null) ...[
             SizedBox(height: 8),
             Text(
               _errorMessage!,
               textAlign: TextAlign.center,
-              style: AppStyles.red14regular,
+              style: AppStyles.regularTextStyle14.copyWith(
+                color: AppColors.red,
+              ),
             ),
           ],
           const SizedBox(height: 8),
@@ -76,31 +81,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
     return EventlyHeader(
       center: Text(
         _appLocalizations.addEvent,
-        style: AppStyles.mainText18medium,
+        style: AppStyles.mediumTextStyle18.copyWith(
+          color: _theme.colorScheme.onSecondary,
+        ),
       ),
       leading: ButtonWidget(
         onTap: () => Navigator.pop(context),
-        child: SvgPicture.asset(
-          Localizations.localeOf(context).languageCode == "en"
+        child: SvgAsset(
+          asset: Localizations.localeOf(context).languageCode == "en"
               ? AppIcons.arrowLeft
               : AppIcons.arrowRight,
-        ),
-      ),
-    );
-  }
-
-  Container categoryImage() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.24,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.stroke),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          CategoryDm.getCategoryById(_selectedCategory!).imagePath!,
-          fit: BoxFit.fitWidth,
+          color: _theme.colorScheme.onSurface,
         ),
       ),
     );
@@ -228,7 +219,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
       onPresses: onPressAddEvent,
       child: _isLoading
           ? CircularProgressIndicator(color: AppColors.white)
-          : Text(_appLocalizations.addEvent, style: AppStyles.white20medium),
+          : Text(
+              _appLocalizations.addEvent,
+              style: AppStyles.mediumTextStyle20.copyWith(
+                color: AppColors.white,
+              ),
+            ),
     );
   }
 
@@ -254,15 +250,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
 
     try {
-      await EventService().addEvent(
-        userId: context.read<UserProvider>().user!.id,
-        title: _titleController.text.trim(),
-        description: _descriptionController.text.trim(),
-        categoryId: _selectedCategory!,
-        dateTime: _selectedDateTime,
-      );
+      await EventService()
+          .addEvent(
+            userId: context.read<UserProvider>().user!.id,
+            title: _titleController.text.trim(),
+            description: _descriptionController.text.trim(),
+            categoryId: _selectedCategory!,
+            dateTime: _selectedDateTime,
+          )
+          .timeout(const Duration(seconds: 30));
       if (!mounted) return;
       Navigator.pop(context);
+    } on TimeoutException {
+      setState(() => _errorMessage = _appLocalizations.timedOut);
     } catch (e) {
       setState(() => _errorMessage = e.toString());
     } finally {
@@ -281,7 +281,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
     crossAxisAlignment: CrossAxisAlignment.start,
     spacing: 8,
     children: [
-      Text(label, style: AppStyles.mainText16medium),
+      Text(
+        label,
+        style: AppStyles.mediumTextStyle16.copyWith(
+          color: _theme.colorScheme.onSecondary,
+        ),
+      ),
       EventlyTextFormField(
         validator: validator,
         textInputAction: textInputAction,
@@ -299,16 +304,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
     required VoidCallback onTap,
   }) => Row(
     children: [
-      SvgPicture.asset(icon),
+      SvgAsset(asset: icon, color: _theme.primaryColor),
       const SizedBox(width: 8),
-      Text(title, style: AppStyles.mainText16medium),
+      Text(
+        title,
+        style: AppStyles.mediumTextStyle16.copyWith(
+          color: _theme.colorScheme.onSecondary,
+        ),
+      ),
       const Spacer(),
       GestureDetector(
         onTap: onTap,
         child: Text(
           value,
-          style: AppStyles.mainColor14regular.copyWith(
+          style: AppStyles.regularTextStyle14.copyWith(
             decoration: TextDecoration.underline,
+            color: _theme.primaryColor,
+            decorationColor: _theme.primaryColor,
           ),
         ),
       ),

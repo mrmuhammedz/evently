@@ -21,6 +21,9 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final bgColorTheme = bgColor == AppColors.white ? theme.colorScheme.surface : bgColor;
+
     return InkWell(
       borderRadius: BorderRadius.circular(8),
       onTap: () => onTap?.call(),
@@ -31,20 +34,15 @@ class ButtonWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: bgColor == AppColors.mainColor
+          border: bgColorTheme == theme.primaryColor
               ? null
-              : Border.all(color: AppColors.stroke),
-          color: bgColor,
+              : Border.all(color: theme.colorScheme.outline),
+          color: bgColorTheme,
         ),
         child: Row(
           spacing: 8,
           mainAxisSize: icon == null ? MainAxisSize.min : MainAxisSize.max,
-          children: icon == null
-              ? [child]
-              : [
-                  Expanded(child: child),
-                  ?icon,
-                ],
+          children: icon == null ? [child] : [Expanded(child: child), ?icon],
         ),
       ),
     );
