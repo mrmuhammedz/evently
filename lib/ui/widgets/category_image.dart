@@ -11,19 +11,22 @@ class CategoryImage extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          CategoryDm.getCategoryById(
-            id,
-          ).getImagePath(ThemeProvider().isDarkMode(context))!,
-          fit: BoxFit.fill,
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: theme.colorScheme.outline),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.asset(
+            CategoryDm.getCategoryById(
+              id,
+            ).getImagePath(ThemeProvider().isDarkMode(context))!,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

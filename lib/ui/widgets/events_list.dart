@@ -15,7 +15,7 @@ class EventsList extends StatelessWidget {
         itemBuilder: (_, index) => EventCard(
           event: events[index],
         ),
-        separatorBuilder: (_, _) => SizedBox(height: 16),
+        separatorBuilder: (_, _) => const SizedBox(height: 16),
       ),
     );
   }

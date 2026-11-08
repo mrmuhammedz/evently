@@ -1,5 +1,6 @@
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/ui/utils/app_assets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class UserImage extends StatelessWidget {
@@ -15,7 +16,7 @@ class UserImage extends StatelessWidget {
       child: CircleAvatar(
         radius: radius - 2,
         backgroundImage: user?.photoUrl != null
-            ? NetworkImage(user!.photoUrl!)
+            ? CachedNetworkImageProvider(user!.photoUrl!)
             : AssetImage(AppImages.profile) as ImageProvider,
       ),
     );

@@ -8,6 +8,7 @@ import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,6 +19,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  bool _isBottomBarVisible = true;
   final List<Widget> _taps = const [HomeTap(), FavoriteTap(), ProfileTap()];
   ThemeData get _theme => Theme.of(context);
 
@@ -27,43 +29,73 @@ class _MainScreenState extends State<MainScreen> {
 
     return EventlyScaffold(
       bottomNavigationBar: buildNavigationBar(appLocalizations),
-      floatingActionButton: buildFAB(appLocalizations),
-      child: IndexedStack(index: _currentIndex, children: _taps),
+      floatingActionButton: AnimatedSlide(
+        offset: _isBottomBarVisible ? Offset.zero : const Offset(0, 2),
+        duration: const Duration(milliseconds: 200),
+        child: AnimatedOpacity(
+          opacity: _isBottomBarVisible ? 1 : 0,
+          duration: const Duration(milliseconds: 200),
+          child: buildFAB(appLocalizations),
+        ),
+      ),
+      child: NotificationListener<UserScrollNotification>(
+        onNotification: (n) {
+          if (n.direction == ScrollDirection.reverse) {
+            setState(() => _isBottomBarVisible = false);
+          }
+          if (n.direction == ScrollDirection.forward) {
+            setState(() => _isBottomBarVisible = true);
+          }
+          return false;
+        },
+        child: IndexedStack(index: _currentIndex, children: _taps),
+      ),
     );
   }
 
   Widget buildNavigationBar(AppLocalizations appLocalizations) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
-      child: BottomNavigationBar(
-        items: [
-          navigationBarItemBuilder(
-            label: appLocalizations.home,
-            icon: AppIcons.home,
-            activeIcon: AppIcons.filledHome,
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 200),
+      child: Align(
+        heightFactor: _isBottomBarVisible ? 1 : 0,
+        child: AnimatedOpacity(
+          opacity: _isBottomBarVisible ? 1 : 0,
+          duration: const Duration(milliseconds: 200),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+            child: BottomNavigationBar(
+              items: [
+                navigationBarItemBuilder(
+                  label: appLocalizations.home,
+                  icon: AppIcons.home,
+                  activeIcon: AppIcons.filledHome,
+                ),
+                navigationBarItemBuilder(
+                  label: appLocalizations.favorite,
+                  icon: AppIcons.heart,
+                  activeIcon: AppIcons.filledHeart,
+                ),
+                navigationBarItemBuilder(
+                  label: appLocalizations.profile,
+                  icon: AppIcons.user,
+                  activeIcon: AppIcons.filledUser,
+                ),
+              ],
+              onTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                  // _isBottomBarVisible = true;
+                });
+              },
+              currentIndex: _currentIndex,
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+            ),
           ),
-          navigationBarItemBuilder(
-            label: appLocalizations.favorite,
-            icon: AppIcons.heart,
-            activeIcon: AppIcons.filledHeart,
-          ),
-          navigationBarItemBuilder(
-            label: appLocalizations.profile,
-            icon: AppIcons.user,
-            activeIcon: AppIcons.filledUser,
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        currentIndex: _currentIndex,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
+        ),
       ),
     );
   }

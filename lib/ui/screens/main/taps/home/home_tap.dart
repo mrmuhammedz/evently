@@ -45,7 +45,7 @@ class _HomeTapState extends State<HomeTap> {
         buildHeader(user),
         SizedBox(height: 24),
         tapBar(),
-        SizedBox(height: 24),
+        SizedBox(height: 12),
         StreamBuilder<List<EventDm>>(
           stream: _eventsStream,
           builder: (context, snapshot) {
