@@ -292,5 +292,5 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this event?';
 
   @override
-  String get delete => 'delete';
+  String get delete => 'Delete';
 }

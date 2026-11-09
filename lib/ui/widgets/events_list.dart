@@ -6,12 +6,13 @@ class EventsList extends StatelessWidget {
   final List<EventDm> events;
   final String heroTag;
 
-  const EventsList({super.key, required this.events, required this.heroTag,});
+  const EventsList({super.key, required this.events, required this.heroTag});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
+        padding: const EdgeInsets.only(bottom: 25),
         itemCount: events.length,
         itemBuilder: (_, index) => EventCard(
           event: events[index],

@@ -70,8 +70,12 @@ class EventCard extends StatelessWidget {
                     verticalPadding: 8,
                     icon: GestureDetector(
                       onTap: () {
-                        context.read<UserProvider>().updateFavorites(event.id);
-                        EventService().addEventToFavorites(userProvider.user!);
+                        EventService().updateFavorite(
+                          eventId: event.id,
+                          userId: userProvider.user!.id,
+                          isFavorite: isFavorite,
+                        );
+                        userProvider.setFavorite(event.id, isFavorite);
                       },
                       child: SvgAsset(
                         asset: isFavorite

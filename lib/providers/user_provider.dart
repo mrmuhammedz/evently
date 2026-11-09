@@ -16,13 +16,25 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateFavorites(String eventId) {
+  void setFavorite(String eventId, bool isFavorite) {
     if (_user == null) return;
-    if (_user!.favoritesEvents.contains(eventId)) {
-      _user!.favoritesEvents.remove(eventId);
+
+    if (!isFavorite) {
+      if (!_user!.favoritesEvents.contains(eventId)) {
+        _user!.favoritesEvents.add(eventId);
+      }
     } else {
-      _user!.favoritesEvents.add(eventId);
+      _user!.favoritesEvents.remove(eventId);
     }
+
+    notifyListeners();
+  }
+
+  void removeFavorite(String eventId) {
+    if (_user == null) return;
+
+    _user!.favoritesEvents.remove(eventId);
+
     notifyListeners();
   }
 

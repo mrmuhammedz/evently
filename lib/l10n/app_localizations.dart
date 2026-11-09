@@ -641,7 +641,7 @@ abstract class AppLocalizations {
   /// No description provided for @delete.
   ///
   /// In en, this message translates to:
-  /// **'delete'**
+  /// **'Delete'**
   String get delete;
 }
 

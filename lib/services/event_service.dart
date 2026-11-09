@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/models/event_dm.dart';
-import 'package:evently/models/user_dm.dart';
 
 class EventService {
   final _firestore = FirebaseFirestore.instance;
@@ -34,9 +33,18 @@ class EventService {
     );
   }
 
-  Future<void> addEventToFavorites(UserDm user) async {
-    final userRef = _firestore.collection('users').doc(user.id);
-    await userRef.update({'favoritesEvents': user.favoritesEvents});
+  Future<void> updateFavorite({
+    required String userId,
+    required String eventId,
+    required bool isFavorite,
+  }) async {
+    final userRef = _firestore.collection('users').doc(userId);
+
+    await userRef.update({
+      'favoritesEvents': !isFavorite
+          ? FieldValue.arrayUnion([eventId])
+          : FieldValue.arrayRemove([eventId]),
+    });
   }
 
   Future<void> deleteEvent(String eventId) async {

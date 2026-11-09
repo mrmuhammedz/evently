@@ -123,6 +123,7 @@ class EventDetailsScreen extends StatelessWidget {
     if (confirm == true) {
       await EventService().deleteEvent(event.id);
       if (context.mounted) {
+        context.read<UserProvider>().removeFavorite(event.id);
         Navigator.pop(context);
       }
     }

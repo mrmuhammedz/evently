@@ -72,9 +72,7 @@ class ProfileTap extends StatelessWidget {
                   : AppIcons.arrowLeft,
               color: theme.primaryColor,
             ),
-            onTap: () {
-              // Handle my events tap
-            },
+            onTap: () => Navigator.push(context, AppRoutes.myEvents()),
           ),
           SizedBox(height: 16),
           optionRow(
