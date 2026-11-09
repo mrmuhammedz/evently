@@ -15,6 +15,7 @@ import 'package:evently/ui/widgets/evently_tap_bar.dart';
 import 'package:evently/ui/widgets/evently_text_form_field.dart';
 import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -190,7 +191,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
       icon: AppIcons.clock,
       title: _appLocalizations.eventTime,
       value: _selectedTime != null
-          ? "${_selectedTime!.hour.toString().padLeft(2, "0")}:${_selectedTime!.minute.toString().padLeft(2, "0")}"
+          ? DateFormat(
+            'hh:mm a',
+            _appLocalizations.localeName,
+          ).format(_selectedDateTime)
           : _appLocalizations.chooseTime,
       onTap: () async {
         final pickedTime = await showTimePicker(

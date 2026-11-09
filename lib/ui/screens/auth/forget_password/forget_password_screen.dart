@@ -18,52 +18,59 @@ class ForgetPasswordScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return EventlyScaffold(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: .stretch,
-          children: [
-            SizedBox(height: 16),
-            EventlyHeader(
-              center: Text(
-                appLocalizations.forgetPassword2,
-                style: AppStyles.mediumTextStyle18.copyWith(
-                  color: theme.colorScheme.onSecondary,
-                ),
-              ),
-              leading: ButtonWidget(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: SvgAsset(
-                  asset: Localizations.localeOf(context).languageCode == "en"
-                      ? AppIcons.arrowLeft
-                      : AppIcons.arrowRight,
-                  color: theme.colorScheme.onSurface,
-                ),
+      child: Column(
+        children: [
+          SizedBox(height: 16),
+          EventlyHeader(
+            center: Text(
+              appLocalizations.forgetPassword2,
+              style: AppStyles.mediumTextStyle18.copyWith(
+                color: theme.colorScheme.onSecondary,
               ),
             ),
-            SizedBox(height: 43.5),
-            SizedBox(
-              height: 428,
-              child: ImageIcon(
-                AssetImage(AppImages.changeSetting),
-                size: double.infinity,
+            leading: ButtonWidget(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: SvgAsset(
+                asset: Localizations.localeOf(context).languageCode == "en"
+                    ? AppIcons.arrowLeft
+                    : AppIcons.arrowRight,
                 color: theme.colorScheme.onSurface,
               ),
             ),
-            SizedBox(height: 40),
-            EventlyButton(
-              child: Text(
-                appLocalizations.resetPassword,
-                style: AppStyles.mediumTextStyle20.copyWith(
-                  color: AppColors.white,
-                ),
+          ),
+          SizedBox(height: 12),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: .stretch,
+                children: [
+                  SizedBox(height: 20),
+                  SizedBox(
+                    height: 343,
+                    child: ImageIcon(
+                      AssetImage(AppImages.changeSetting),
+                      size: double.infinity,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  EventlyButton(
+                    child: Text(
+                      appLocalizations.resetPassword,
+                      style: AppStyles.mediumTextStyle20.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
+                    onPresses: () {},
+                  ),
+                  SizedBox(height: 16),
+                ],
               ),
-              onPresses: () {},
             ),
-            SizedBox(height: 16),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

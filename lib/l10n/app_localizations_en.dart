@@ -276,5 +276,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noFavoriteEventsFound => 'No favorite events found';
 
   @override
-  String get eventEnded => 'Event Ended';
+  String get eventEnded => 'Event ended';
+
+  @override
+  String get eventDetails => 'Event details';
+
+  @override
+  String get myEvents => 'My events';
+
+  @override
+  String get deleteEvent => 'Delete Event';
+
+  @override
+  String get deleteConfirmation =>
+      'Are you sure you want to delete this event?';
+
+  @override
+  String get delete => 'delete';
 }

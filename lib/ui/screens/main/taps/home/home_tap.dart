@@ -63,18 +63,21 @@ class _HomeTapState extends State<HomeTap> {
                 ),
               );
             } else if (!snapshot.hasData ||
-                filterEvents(snapshot.data ?? []).isEmpty) {
+                filteredEvents(snapshot.data ?? []).isEmpty) {
               return Center(child: Text(_appLocalizations.noEventsFound));
             }
 
-            return EventsList(events: filterEvents(snapshot.data ?? []));
+            return EventsList(
+              events: filteredEvents(snapshot.data ?? []),
+              heroTag: 'home_',
+            );
           },
         ),
       ],
     );
   }
 
-  List<EventDm> filterEvents(List<EventDm> events) {
+  List<EventDm> filteredEvents(List<EventDm> events) {
     return _selectedCategoryId == null
         ? events
         : events

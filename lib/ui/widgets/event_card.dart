@@ -4,6 +4,7 @@ import 'package:evently/providers/user_provider.dart';
 import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
+import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/category_image.dart';
@@ -14,8 +15,9 @@ import 'package:provider/provider.dart';
 
 class EventCard extends StatelessWidget {
   final EventDm event;
+  final String heroTag;
 
-  const EventCard({super.key, required this.event});
+  const EventCard({super.key, required this.event, required this.heroTag});
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +30,21 @@ class EventCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Handle event card tap
+        Navigator.push(
+          context,
+          AppRoutes.eventDetailsRoute(event: event, heroTag: heroTag),
+        );
       },
       child: Stack(
         children: [
-          CategoryImage(id: event.categoryId),
+          Hero(
+            tag: heroTag,
+            child: CategoryImage(id: event.categoryId),
+          ),
           Positioned.fill(
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
-                // mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,10 +71,7 @@ class EventCard extends StatelessWidget {
                     icon: GestureDetector(
                       onTap: () {
                         context.read<UserProvider>().updateFavorites(event.id);
-                        EventService().addEventToFavorites(
-                          event.id,
-                          userProvider.user!,
-                        );
+                        EventService().addEventToFavorites(userProvider.user!);
                       },
                       child: SvgAsset(
                         asset: isFavorite

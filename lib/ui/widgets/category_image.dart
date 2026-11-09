@@ -1,6 +1,7 @@
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryImage extends StatelessWidget {
   final EventCategory id;
@@ -24,7 +25,7 @@ class CategoryImage extends StatelessWidget {
           child: Image.asset(
             CategoryDm.getCategoryById(
               id,
-            ).getImagePath(ThemeProvider().isDarkMode(context))!,
+            ).getImagePath(context.read<ThemeProvider>().isDarkMode(context))!,
             fit: BoxFit.cover,
           ),
         ),

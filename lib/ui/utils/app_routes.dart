@@ -1,4 +1,6 @@
+import 'package:evently/models/event_dm.dart';
 import 'package:evently/ui/screens/add_event/add_event_screen.dart';
+import 'package:evently/ui/screens/event_details/event_details_screen.dart';
 import 'package:evently/ui/screens/onboarding/onboarding_screen.dart';
 import 'package:evently/ui/screens/auth/login/login_screen.dart';
 import 'package:evently/ui/screens/auth/sign_up/sign_up_screen.dart';
@@ -19,4 +21,10 @@ abstract final class AppRoutes {
       MaterialPageRoute(builder: (_) => const MainScreen());
   static MaterialPageRoute addEventRoute() =>
       MaterialPageRoute(builder: (_) => const AddEventScreen());
+  static MaterialPageRoute eventDetailsRoute({
+    required EventDm event,
+    required String heroTag,
+  }) => MaterialPageRoute(
+    builder: (_) => EventDetailsScreen(event: event, heroTag: heroTag),
+  );
 }

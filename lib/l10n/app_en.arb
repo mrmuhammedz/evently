@@ -84,5 +84,10 @@
     "timedOut": "Timed out error. Please try again.",
     "noEventsFound": "No events found",
     "noFavoriteEventsFound": "No favorite events found",
-    "eventEnded": "Event Ended"
+    "eventEnded": "Event ended",
+    "eventDetails": "Event details",
+    "myEvents": "My events",
+    "deleteEvent": "Delete Event",
+    "deleteConfirmation": "Are you sure you want to delete this event?",
+    "delete": "delete"
 }

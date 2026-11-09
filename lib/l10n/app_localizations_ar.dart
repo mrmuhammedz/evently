@@ -279,4 +279,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eventEnded => 'انتهى الحدث';
+
+  @override
+  String get eventDetails => 'تفاصيل الحدث';
+
+  @override
+  String get myEvents => 'احداثي';
+
+  @override
+  String get deleteEvent => 'حذف الحدث';
+
+  @override
+  String get deleteConfirmation => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get delete => 'حذف';
 }

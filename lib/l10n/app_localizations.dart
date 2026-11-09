@@ -611,8 +611,38 @@ abstract class AppLocalizations {
   /// No description provided for @eventEnded.
   ///
   /// In en, this message translates to:
-  /// **'Event Ended'**
+  /// **'Event ended'**
   String get eventEnded;
+
+  /// No description provided for @eventDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Event details'**
+  String get eventDetails;
+
+  /// No description provided for @myEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'My events'**
+  String get myEvents;
+
+  /// No description provided for @deleteEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Event'**
+  String get deleteEvent;
+
+  /// No description provided for @deleteConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this event?'**
+  String get deleteConfirmation;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate

@@ -84,5 +84,10 @@
     "timedOut": "انتهت المهلة. يرجى المحاولة مرة أخرى.",
     "noEventsFound": "لم يتم العثور على فعاليات",
     "noFavoriteEventsFound": "لم يتم العثور على فعاليات مفضلة",
-    "eventEnded": "انتهى الحدث"
+    "eventEnded": "انتهى الحدث",
+    "eventDetails": "تفاصيل الحدث",
+    "myEvents": "احداثي",
+    "deleteEvent": "حذف الحدث",
+    "deleteConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "delete": "حذف"
 }

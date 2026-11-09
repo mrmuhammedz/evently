@@ -34,11 +34,29 @@ class EventService {
     );
   }
 
-  Future<void> addEventToFavorites(String eventId, UserDm user) async {
+  Future<void> addEventToFavorites(UserDm user) async {
     final userRef = _firestore.collection('users').doc(user.id);
     await userRef.update({'favoritesEvents': user.favoritesEvents});
   }
 
-  // Future<void> deleteEvent() async {}
+  Future<void> deleteEvent(String eventId) async {
+    final usersSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('favoritesEvents', arrayContains: eventId)
+        .get();
+
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (final user in usersSnapshot.docs) {
+      batch.update(user.reference, {
+        'favoritesEvents': FieldValue.arrayRemove([eventId]),
+      });
+    }
+
+    await batch.commit();
+
+    await _firestore.collection("events").doc(eventId).delete();
+  }
+
   // Future<void> updateEvent() async {}
 }

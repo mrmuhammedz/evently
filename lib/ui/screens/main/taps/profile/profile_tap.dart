@@ -2,6 +2,7 @@ import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/ui/widgets/evently_dialog.dart';
 import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:evently/ui/widgets/user_image.dart';
@@ -64,6 +65,20 @@ class ProfileTap extends StatelessWidget {
           SizedBox(height: 16),
           optionRow(
             theme: theme,
+            text: appLocalizations.myEvents,
+            action: SvgAsset(
+              asset: currentLocale == "en"
+                  ? AppIcons.arrowRight
+                  : AppIcons.arrowLeft,
+              color: theme.primaryColor,
+            ),
+            onTap: () {
+              // Handle my events tap
+            },
+          ),
+          SizedBox(height: 16),
+          optionRow(
+            theme: theme,
             text: appLocalizations.theme,
             action: ThemeDropdown(
               appLocalizations: appLocalizations,
@@ -93,8 +108,7 @@ class ProfileTap extends StatelessWidget {
             text: appLocalizations.logout,
             action: SvgPicture.asset(AppIcons.logout),
             onTap: () => logoutDialog(
-              theme: theme,
-              context: context,
+              context,
               appLocalizations: appLocalizations,
               userProvider: userProvider,
             ),
@@ -105,54 +119,24 @@ class ProfileTap extends StatelessWidget {
     );
   }
 
-  Future<void> logoutDialog({
-    required BuildContext context,
+  Future<void> logoutDialog(
+    BuildContext context, {
     required AppLocalizations appLocalizations,
     required UserProvider userProvider,
-    required ThemeData theme,
-  }) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            appLocalizations.logout,
-            style: TextStyle().copyWith(color: theme.colorScheme.onSecondary),
-          ),
-          content: Text(
-            appLocalizations.logoutConfirmation,
-            style: AppStyles.mediumTextStyle16.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(), // Close the dialog
-
-              child: Text(
-                appLocalizations.cancel,
-                style: AppStyles.semiBoldTextStyle14.copyWith(
-                  color: theme.primaryColor,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                userProvider.logout();
-                Navigator.of(context).pop(); // Close the dialog
-                Navigator.pushReplacement(context, AppRoutes.loginRoute());
-              },
-              child: Text(
-                appLocalizations.confirm,
-                style: AppStyles.semiBoldTextStyle14.copyWith(
-                  color: theme.primaryColor,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+  }) async {
+    final confirm = await eventlyShowDialog(
+      context,
+      title: appLocalizations.logout,
+      content: appLocalizations.logoutConfirmation,
+      cancel: appLocalizations.cancel,
+      confirm: appLocalizations.confirm,
     );
+
+    if (!context.mounted) return;
+    if (confirm == true) {
+      userProvider.logout();
+      Navigator.pushReplacement(context, AppRoutes.loginRoute());
+    }
   }
 
   Widget optionRow({

@@ -56,7 +56,10 @@ class _FavoriteTapState extends State<FavoriteTap> {
                 filteredEvents(snapshot.data ?? []).isEmpty) {
               return Center(child: Text(appLocalizations.noEventsFound));
             }
-            return EventsList(events: filteredEvents(snapshot.data ?? []));
+            return EventsList(
+              events: filteredEvents(snapshot.data ?? []),
+              heroTag: 'fav_',
+            );
           },
         ),
       ],
