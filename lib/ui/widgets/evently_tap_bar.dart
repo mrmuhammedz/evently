@@ -5,11 +5,13 @@ import 'category_tap.dart';
 class EventlyTapBar extends StatefulWidget {
   final List<CategoryDm> categories;
   final Function(EventCategory? id) onTap;
+  final EventCategory? currentCategory;
 
   const EventlyTapBar({
     super.key,
     required this.categories,
     required this.onTap,
+    this.currentCategory,
   });
 
   @override
@@ -17,7 +19,18 @@ class EventlyTapBar extends StatefulWidget {
 }
 
 class _EventlyTapBarState extends State<EventlyTapBar> {
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = _indexForCategory(widget.currentCategory);
+  }
+  
+  int _indexForCategory(EventCategory? category) {
+    final index = widget.categories.indexWhere((item) => item.id == category);
+    return index < 0 ? 0 : index;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +40,8 @@ class _EventlyTapBarState extends State<EventlyTapBar> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            widget.onTap(widget.categories[index].id);
           });
+          widget.onTap(widget.categories[index].id);
         },
         overlayColor: WidgetStatePropertyAll(Colors.transparent),
         labelPadding: EdgeInsets.only(right: 8),

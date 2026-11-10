@@ -1,5 +1,4 @@
 import 'package:evently/models/event_dm.dart';
-import 'package:evently/ui/screens/add_event/add_event_screen.dart';
 import 'package:evently/ui/screens/event_details/event_details_screen.dart';
 import 'package:evently/ui/screens/my_events/my_events_screen.dart';
 import 'package:evently/ui/screens/onboarding/onboarding_screen.dart';
@@ -7,6 +6,7 @@ import 'package:evently/ui/screens/auth/login/login_screen.dart';
 import 'package:evently/ui/screens/auth/sign_up/sign_up_screen.dart';
 import 'package:evently/ui/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:evently/ui/screens/main/main_screen.dart';
+import 'package:evently/ui/widgets/event_screen_widget.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppRoutes {
@@ -21,7 +21,7 @@ abstract final class AppRoutes {
   static MaterialPageRoute mainRoute() =>
       MaterialPageRoute(builder: (_) => const MainScreen());
   static MaterialPageRoute addEventRoute() =>
-      MaterialPageRoute(builder: (_) => const AddEventScreen());
+      MaterialPageRoute(builder: (_) => const EventScreenWidget());
   static MaterialPageRoute eventDetailsRoute({
     required EventDm event,
     required String heroTag,
@@ -30,4 +30,6 @@ abstract final class AppRoutes {
   );
   static MaterialPageRoute myEvents() =>
       MaterialPageRoute(builder: (_) => const MyEventsScreen());
+  static MaterialPageRoute editEventRoute({required EventDm event}) =>
+      MaterialPageRoute(builder: (_) => EventScreenWidget(event: event));
 }

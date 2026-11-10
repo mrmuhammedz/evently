@@ -66,5 +66,9 @@ class EventService {
     await _firestore.collection("events").doc(eventId).delete();
   }
 
-  // Future<void> updateEvent() async {}
+  Future<void> updateEvent(EventDm updatedEvent) async {
+    final eventRef = _firestore.collection('events').doc(updatedEvent.id);
+
+    await eventRef.update(updatedEvent.toJson());
+  }
 }

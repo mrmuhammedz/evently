@@ -89,5 +89,7 @@
     "myEvents": "احداثي",
     "deleteEvent": "حذف الحدث",
     "deleteConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
-    "delete": "حذف"
+    "delete": "حذف",
+    "editEvent": "تعديل الحدث",
+    "updateEvent": "تحديث الحدث"
 }

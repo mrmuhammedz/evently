@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
+import 'package:evently/models/event_dm.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
@@ -18,26 +19,46 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({super.key});
+class EventScreenWidget extends StatefulWidget {
+  final EventDm? event;
+
+  const EventScreenWidget({super.key, this.event});
 
   @override
-  State<AddEventScreen> createState() => _AddEventScreenState();
+  State<EventScreenWidget> createState() => _EventScreenWidgetState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
-  EventCategory? _selectedCategory = allCategories[1].id;
-  final _key = GlobalKey<FormState>();
+class _EventScreenWidgetState extends State<EventScreenWidget> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _key = GlobalKey<FormState>();
   final _now = DateTime.now();
   late DateTime _selectedDateTime;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
+  EventCategory? _selectedCategory = allCategories[1].id;
   String? _errorMessage;
   bool _isLoading = false;
   AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
   ThemeData get _theme => Theme.of(context);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.event != null) {
+      _titleController.text = widget.event!.title;
+      _descriptionController.text = widget.event!.description;
+      _selectedCategory = widget.event!.categoryId;
+      _selectedDateTime = widget.event!.dateTime;
+
+      _selectedDate = DateTime(
+        widget.event!.dateTime.year,
+        widget.event!.dateTime.month,
+        widget.event!.dateTime.day,
+      );
+      _selectedTime = TimeOfDay.fromDateTime(widget.event!.dateTime);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +82,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          addEventButton(),
+          eventSubmissionButton(),
           if (_errorMessage != null) ...[
             SizedBox(height: 8),
             Text(
@@ -78,10 +99,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   EventlyHeader screenHeader() {
     return EventlyHeader(
       center: Text(
-        _appLocalizations.addEvent,
+        widget.event == null
+            ? _appLocalizations.addEvent
+            : _appLocalizations.editEvent,
         style: AppStyles.mediumTextStyle18.copyWith(
           color: _theme.colorScheme.onSecondary,
         ),
@@ -101,6 +129,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   EventlyTapBar tapBar() {
     return EventlyTapBar(
       categories: allCategories.skip(1).toList(),
+      currentCategory: _selectedCategory,
       onTap: (id) {
         setState(() => _selectedCategory = id);
       },
@@ -192,9 +221,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
       title: _appLocalizations.eventTime,
       value: _selectedTime != null
           ? DateFormat(
-            'hh:mm a',
-            _appLocalizations.localeName,
-          ).format(_selectedDateTime)
+              'hh:mm a',
+              _appLocalizations.localeName,
+            ).format(_selectedDateTime)
           : _appLocalizations.chooseTime,
       onTap: () async {
         final pickedTime = await showTimePicker(
@@ -218,13 +247,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  Widget addEventButton() {
+  Widget eventSubmissionButton() {
     return EventlyButton(
-      onPresses: onPressAddEvent,
+      onPresses: onSubmissionPress,
       child: _isLoading
           ? CircularProgressIndicator(color: AppColors.white)
           : Text(
-              _appLocalizations.addEvent,
+              widget.event == null
+                  ? _appLocalizations.addEvent
+                  : _appLocalizations.updateEvent,
               style: AppStyles.mediumTextStyle20.copyWith(
                 color: AppColors.white,
               ),
@@ -232,7 +263,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     );
   }
 
-  Future<void> onPressAddEvent() async {
+  Future<void> onSubmissionPress() async {
     if (_isLoading) return;
     if (!_key.currentState!.validate()) {
       return;
@@ -254,17 +285,31 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
 
     try {
-      await EventService()
-          .addEvent(
-            userId: context.read<UserProvider>().user!.id,
-            title: _titleController.text.trim(),
-            description: _descriptionController.text.trim(),
-            categoryId: _selectedCategory!,
-            dateTime: _selectedDateTime,
-          )
-          .timeout(const Duration(seconds: 30));
+      widget.event == null
+          ? await EventService()
+                .addEvent(
+                  userId: context.read<UserProvider>().user!.id,
+                  title: _titleController.text.trim(),
+                  description: _descriptionController.text.trim(),
+                  categoryId: _selectedCategory!,
+                  dateTime: _selectedDateTime,
+                )
+                .timeout(const Duration(seconds: 30))
+          : await EventService()
+                .updateEvent(
+                  EventDm(
+                    id: widget.event!.id,
+                    userId: widget.event!.userId,
+                    categoryId: _selectedCategory!,
+                    title: _titleController.text.trim(),
+                    description: _descriptionController.text.trim(),
+                    dateTime: _selectedDateTime,
+                  ),
+                )
+                .timeout(const Duration(seconds: 30));
       if (!mounted) return;
       Navigator.pop(context);
+      if (widget.event != null) Navigator.pop(context);
     } on TimeoutException {
       setState(() => _errorMessage = _appLocalizations.timedOut);
     } catch (e) {

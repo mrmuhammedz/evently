@@ -3,6 +3,7 @@ import 'package:evently/models/event_dm.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
+import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/category_image.dart';
@@ -92,6 +93,8 @@ class EventDetailsScreen extends StatelessWidget {
       actions: [
         if (user!.id == event.userId) ...[
           ButtonWidget(
+            onTap: () =>
+                Navigator.push(context, AppRoutes.editEventRoute(event: event)),
             child: SvgAsset(
               asset: AppIcons.edit,
               color: theme.colorScheme.onSurface,
@@ -99,9 +102,9 @@ class EventDetailsScreen extends StatelessWidget {
           ),
           SizedBox(width: 8),
           ButtonWidget(
-            child: SvgAsset(asset: AppIcons.trash),
             onTap: () =>
                 deleteDialog(context, appLocalizations: appLocalizations),
+            child: SvgAsset(asset: AppIcons.trash),
           ),
         ],
       ],

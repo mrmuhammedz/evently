@@ -294,4 +294,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get delete => 'حذف';
+
+  @override
+  String get editEvent => 'تعديل الحدث';
+
+  @override
+  String get updateEvent => 'تحديث الحدث';
 }
