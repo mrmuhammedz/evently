@@ -272,6 +272,15 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
         if (value.length < 6) {
           return _appLocalizations.passwordMustBeAtLeast6Characters;
         }
+        if (!RegExp(r'[A-Z]').hasMatch(value)) {
+          return _appLocalizations.passwordMustContainUppercase;
+        }
+        if (!RegExp(r'[a-z]').hasMatch(value)) {
+          return _appLocalizations.passwordMustContainLowercase;
+        }
+        if (!RegExp(r'[0-9]').hasMatch(value)) {
+          return _appLocalizations.passwordMustContainNumber;
+        }
         return null;
       },
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 abstract final class AppColors {
   static const Color disable = Color(0xFFB9B9B9);
   static const Color red = Color(0xFFFF3232);
+  static const Color success = Color(0xFF2ECC71);
   static const Color darkRed = Color.fromARGB(255, 193, 85, 85);
   static const Color white = Colors.white;
 

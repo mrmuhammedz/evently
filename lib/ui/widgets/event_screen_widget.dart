@@ -101,6 +101,8 @@ class _EventScreenWidgetState extends State<EventScreenWidget> {
 
   @override
   void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -195,7 +197,9 @@ class _EventScreenWidgetState extends State<EventScreenWidget> {
         final pickedDate = await showDatePicker(
           confirmText: _appLocalizations.add,
           context: context,
-          initialDate: _selectedDate ?? _now,
+          initialDate: widget.event != null && _selectedDateTime.isBefore(_now)
+              ? _now
+              : _selectedDate ?? _now,
           firstDate: _now,
           lastDate: _now.add(const Duration(days: 365)),
         );

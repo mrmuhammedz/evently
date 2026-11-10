@@ -4,47 +4,49 @@ import 'package:flutter/material.dart';
 Future<bool?> eventlyShowDialog(
   BuildContext context, {
   required String title,
-  required String content,
-  required String cancel,
-  required String confirm,
+  required Widget content,
+  String? cancel,
+  String? confirm,
 }) async {
-  final theme = Theme.of(context);
-
   return await showDialog<bool>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Text(
-        title,
-        style: TextStyle().copyWith(color: theme.colorScheme.onSecondary),
-      ),
-      content: Text(
-        content,
-        style: AppStyles.mediumTextStyle16.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
+    builder: (context) {
+      final theme = Theme.of(context);
+
+      return AlertDialog(
+        title: Text(
+          title,
+          style: TextStyle().copyWith(color: theme.colorScheme.onSecondary),
         ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false), // Close the dialog
-          child: Text(
-            cancel,
-            style: AppStyles.semiBoldTextStyle14.copyWith(
-              color: theme.primaryColor,
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context, true); // Close the dialog
-          },
-          child: Text(
-            confirm,
-            style: AppStyles.semiBoldTextStyle14.copyWith(
-              color: theme.primaryColor,
-            ),
-          ),
-        ),
-      ],
-    ),
+        content: content,
+        actions: [
+          ?cancel != null
+              ? TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context, false), // Close the dialog
+                  child: Text(
+                    cancel,
+                    style: AppStyles.semiBoldTextStyle14.copyWith(
+                      color: theme.primaryColor,
+                    ),
+                  ),
+                )
+              : null,
+          ?confirm != null
+              ? TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true); // Close the dialog
+                  },
+                  child: Text(
+                    confirm,
+                    style: AppStyles.semiBoldTextStyle14.copyWith(
+                      color: theme.primaryColor,
+                    ),
+                  ),
+                )
+              : null,
+        ],
+      );
+    },
   );
 }

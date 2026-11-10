@@ -299,4 +299,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateEvent => 'Update event';
+
+  @override
+  String get passwordMustContainUppercase =>
+      'Password must contain at least one uppercase letter';
+
+  @override
+  String get passwordMustContainLowercase =>
+      'Password must contain at least one lowercase letter';
+
+  @override
+  String get passwordMustContainNumber =>
+      'Password must contain at least one number';
+
+  @override
+  String get sendResetMail => 'Send password reset email';
+
+  @override
+  String get resetYourPassword => 'Reset your password';
+
+  @override
+  String get enterVerifiedEmailAndSendResetLink =>
+      'Enter your user account\'s verified email address and we will send you a password reset link.';
+
+  @override
+  String get passwordResetLinkSent =>
+      'If an account exists with this email, a password reset link has been sent.';
 }

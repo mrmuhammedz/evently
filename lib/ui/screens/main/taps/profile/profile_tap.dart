@@ -108,6 +108,7 @@ class ProfileTap extends StatelessWidget {
             onTap: () => logoutDialog(
               context,
               appLocalizations: appLocalizations,
+              theme: theme,
               userProvider: userProvider,
             ),
           ),
@@ -120,12 +121,18 @@ class ProfileTap extends StatelessWidget {
   Future<void> logoutDialog(
     BuildContext context, {
     required AppLocalizations appLocalizations,
+    required ThemeData theme,
     required UserProvider userProvider,
   }) async {
     final confirm = await eventlyShowDialog(
       context,
       title: appLocalizations.logout,
-      content: appLocalizations.logoutConfirmation,
+      content:  Text(
+        appLocalizations.logoutConfirmation,
+        style: AppStyles.mediumTextStyle16.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
       cancel: appLocalizations.cancel,
       confirm: appLocalizations.confirm,
     );

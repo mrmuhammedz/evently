@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 class EventDetailsScreen extends StatelessWidget {
   final EventDm event;
   final String heroTag;
+
   const EventDetailsScreen({
     super.key,
     required this.event,
@@ -103,7 +104,7 @@ class EventDetailsScreen extends StatelessWidget {
           SizedBox(width: 8),
           ButtonWidget(
             onTap: () =>
-                deleteDialog(context, appLocalizations: appLocalizations),
+                deleteDialog(context, appLocalizations: appLocalizations,theme: theme),
             child: SvgAsset(asset: AppIcons.trash),
           ),
         ],
@@ -114,11 +115,17 @@ class EventDetailsScreen extends StatelessWidget {
   Future<void> deleteDialog(
     BuildContext context, {
     required AppLocalizations appLocalizations,
+    required ThemeData theme
   }) async {
     final confirm = await eventlyShowDialog(
       context,
       title: appLocalizations.deleteEvent,
-      content: appLocalizations.deleteConfirmation,
+      content:  Text(
+        appLocalizations.deleteConfirmation,
+        style: AppStyles.mediumTextStyle16.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
       cancel: appLocalizations.cancel,
       confirm: appLocalizations.delete,
     );

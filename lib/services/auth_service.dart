@@ -83,4 +83,8 @@ class AuthService {
 
     return UserDm.fromJson(userDoc.data() as Map<String, dynamic>);
   }
+
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email.trim());
+  }
 }

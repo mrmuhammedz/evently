@@ -91,5 +91,12 @@
     "deleteConfirmation": "Are you sure you want to delete this event?",
     "delete": "Delete",
     "editEvent": "Edit event",
-    "updateEvent": "Update event"
+    "updateEvent": "Update event",
+    "passwordMustContainUppercase": "Password must contain at least one uppercase letter",
+    "passwordMustContainLowercase": "Password must contain at least one lowercase letter",
+    "passwordMustContainNumber": "Password must contain at least one number",
+    "sendResetMail": "Send password reset email",
+    "resetYourPassword": "Reset your password",
+    "enterVerifiedEmailAndSendResetLink": "Enter your user account's verified email address and we will send you a password reset link.",
+    "passwordResetLinkSent": "If an account exists with this email, a password reset link has been sent."
 }

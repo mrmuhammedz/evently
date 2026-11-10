@@ -300,4 +300,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get updateEvent => 'تحديث الحدث';
+
+  @override
+  String get passwordMustContainUppercase =>
+      'يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل';
+
+  @override
+  String get passwordMustContainLowercase =>
+      'يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل';
+
+  @override
+  String get passwordMustContainNumber =>
+      'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل';
+
+  @override
+  String get sendResetMail => 'إرسال بريد إلكتروني لإعادة تعيين كلمة المرور';
+
+  @override
+  String get resetYourPassword => 'أعد تعيين كلمة المرور الخاصة بك';
+
+  @override
+  String get enterVerifiedEmailAndSendResetLink =>
+      'أدخل عنوان البريد الإلكتروني الموثّق لحسابك، وسنرسل إليك رابطًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get passwordResetLinkSent =>
+      'إذا كان هناك حساب مرتبط بهذا البريد الإلكتروني، فقد تم إرسال رابط إعادة تعيين كلمة المرور.';
 }

@@ -655,6 +655,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update event'**
   String get updateEvent;
+
+  /// No description provided for @passwordMustContainUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one uppercase letter'**
+  String get passwordMustContainUppercase;
+
+  /// No description provided for @passwordMustContainLowercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one lowercase letter'**
+  String get passwordMustContainLowercase;
+
+  /// No description provided for @passwordMustContainNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one number'**
+  String get passwordMustContainNumber;
+
+  /// No description provided for @sendResetMail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send password reset email'**
+  String get sendResetMail;
+
+  /// No description provided for @resetYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get resetYourPassword;
+
+  /// No description provided for @enterVerifiedEmailAndSendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your user account\'s verified email address and we will send you a password reset link.'**
+  String get enterVerifiedEmailAndSendResetLink;
+
+  /// No description provided for @passwordResetLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists with this email, a password reset link has been sent.'**
+  String get passwordResetLinkSent;
 }
 
 class _AppLocalizationsDelegate
