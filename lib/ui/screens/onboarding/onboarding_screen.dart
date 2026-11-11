@@ -2,6 +2,7 @@ import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/onboarding_dm.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
+import 'package:evently/services/shared_prefs_service.dart';
 import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:provider/provider.dart';
@@ -176,9 +177,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           SizedBox(height: 16),
           EventlyButton(
-            onPresses: () {
+            onPresses: () async {
               if (_current == _onboardingList.length - 1) {
-                Navigator.pushReplacement(context, AppRoutes.loginRoute());
+                final navigator = Navigator.of(context);
+                await SharedPrefsService.setFirstTimeCompleted();
+                if (!mounted) return;
+                navigator.pushReplacement(AppRoutes.loginRoute());
                 return;
               }
               _controller.nextPage(

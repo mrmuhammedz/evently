@@ -8,8 +8,7 @@ class AuthService {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
-  User get _user => _auth.currentUser!;
-  User? get currentUser => _user;
+  User? get currentUser => _auth.currentUser;
 
   Future<void> initGoogleSignIn() async {
     await _googleSignIn.initialize();
@@ -80,11 +79,11 @@ class AuthService {
 
     final user = UserDm.fromJson(userDoc.data() as Map<String, dynamic>);
 
-    if (_user.email != null && _user.email != user.email) {
+    if (currentUser?.email != null && currentUser?.email != user.email) {
       await _firestore.collection('users').doc(user.id).update({
-        'email': _user.email,
+        'email': currentUser?.email,
       });
-      user.email = _user.email!;
+      user.email = currentUser!.email!;
     }
 
     return user;
@@ -103,20 +102,20 @@ class AuthService {
   }
 
   Future<void> updateEmail(String newEmail) async {
-    await _user.verifyBeforeUpdateEmail(newEmail.trim());
+    await currentUser?.verifyBeforeUpdateEmail(newEmail.trim());
   }
 
   Future<void> reauthenticateWithPassword(String currentPassword) async {
-    if (_user.email != null) {
+    if (currentUser?.email != null) {
       final credential = EmailAuthProvider.credential(
-        email: _user.email!,
+        email: currentUser!.email!,
         password: currentPassword,
       );
-      await _user.reauthenticateWithCredential(credential);
+      await currentUser?.reauthenticateWithCredential(credential);
     }
   }
 
   Future<void> updatePassword(String newPassword) async {
-    await _user.updatePassword(newPassword);
+    await currentUser?.updatePassword(newPassword);
   }
 }

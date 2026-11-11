@@ -1,4 +1,5 @@
 import 'package:evently/models/user_dm.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -13,6 +14,7 @@ class UserProvider extends ChangeNotifier {
 
   void logout() {
     _user = null;
+    FirebaseAuth.instance.signOut();
     notifyListeners();
   }
 
