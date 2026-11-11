@@ -325,4 +325,71 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get passwordResetLinkSent =>
       'If an account exists with this email, a password reset link has been sent.';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get changeYourAccountPassword => 'Change your account password.';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get updatePassword => 'Update Password';
+
+  @override
+  String get currentPassword => 'Current Password';
+
+  @override
+  String get enterCurrentPassword => 'Enter current password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get enterNewPassword => 'Enter new password';
+
+  @override
+  String get confirmNewPassword => 'Confirm New Password';
+
+  @override
+  String get enterConfirmNewPassword => 'Enter confirm new password';
+
+  @override
+  String get passwordRequirements => 'Password requirements';
+
+  @override
+  String get atLeast6Characters => 'At least 6 characters.';
+
+  @override
+  String get atLeastOneUppercaseLetter => 'At least one uppercase letter.';
+
+  @override
+  String get atLeastOneLowercaseLetter => 'At least one lowercase letter.';
+
+  @override
+  String get atLeastOneNumber => 'At least one number.';
+
+  @override
+  String get nameUpdatedVerificationSent =>
+      'Name updated. A verification link has been sent to your new email address to confirm the change.';
+
+  @override
+  String get dataUpdatedSuccessfully => 'Data updated successfully.';
+
+  @override
+  String get currentPasswordIsIncorrect => 'Current password is incorrect.';
 }

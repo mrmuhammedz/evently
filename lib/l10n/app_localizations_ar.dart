@@ -326,4 +326,71 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get passwordResetLinkSent =>
       'إذا كان هناك حساب مرتبط بهذا البريد الإلكتروني، فقد تم إرسال رابط إعادة تعيين كلمة المرور.';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get fullName => 'الاسم بالكامل';
+
+  @override
+  String get emailAddress => 'البريد الإلكتروني';
+
+  @override
+  String get password => 'كلمة السر';
+
+  @override
+  String get changeYourAccountPassword => 'تغيير كلمة مرور حسابك.';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+
+  @override
+  String get updatePassword => 'تحديث كلمة المرور';
+
+  @override
+  String get currentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get enterCurrentPassword => 'أدخل كلمة المرور الحالية';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get enterNewPassword => 'أدخل كلمة المرور الجديدة';
+
+  @override
+  String get confirmNewPassword => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get enterConfirmNewPassword => 'أعد إدخال كلمة المرور الجديدة';
+
+  @override
+  String get passwordRequirements => 'متطلبات كلمة المرور';
+
+  @override
+  String get atLeast6Characters => '6 أحرف على الأقل.';
+
+  @override
+  String get atLeastOneUppercaseLetter => 'حرف كبير واحد على الأقل.';
+
+  @override
+  String get atLeastOneLowercaseLetter => 'حرف صغير واحد على الأقل.';
+
+  @override
+  String get atLeastOneNumber => 'رقم واحد على الأقل.';
+
+  @override
+  String get nameUpdatedVerificationSent =>
+      'تم تحديث الاسم. تم إرسال رابط تأكيد إلى بريدك الإلكتروني الجديد لتأكيد التغيير.';
+
+  @override
+  String get dataUpdatedSuccessfully => 'تم تحديث البيانات بنجاح.';
+
+  @override
+  String get currentPasswordIsIncorrect => 'كلمة المرور الحالية غير صحيحة.';
 }

@@ -697,6 +697,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If an account exists with this email, a password reset link has been sent.'**
   String get passwordResetLinkSent;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get editProfile;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @changeYourAccountPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your account password.'**
+  String get changeYourAccountPassword;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @updatePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Password'**
+  String get updatePassword;
+
+  /// No description provided for @currentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPassword;
+
+  /// No description provided for @enterCurrentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter current password'**
+  String get enterCurrentPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @enterNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new password'**
+  String get enterNewPassword;
+
+  /// No description provided for @confirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPassword;
+
+  /// No description provided for @enterConfirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter confirm new password'**
+  String get enterConfirmNewPassword;
+
+  /// No description provided for @passwordRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'Password requirements'**
+  String get passwordRequirements;
+
+  /// No description provided for @atLeast6Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 6 characters.'**
+  String get atLeast6Characters;
+
+  /// No description provided for @atLeastOneUppercaseLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one uppercase letter.'**
+  String get atLeastOneUppercaseLetter;
+
+  /// No description provided for @atLeastOneLowercaseLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one lowercase letter.'**
+  String get atLeastOneLowercaseLetter;
+
+  /// No description provided for @atLeastOneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one number.'**
+  String get atLeastOneNumber;
+
+  /// No description provided for @nameUpdatedVerificationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Name updated. A verification link has been sent to your new email address to confirm the change.'**
+  String get nameUpdatedVerificationSent;
+
+  /// No description provided for @dataUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Data updated successfully.'**
+  String get dataUpdatedSuccessfully;
+
+  /// No description provided for @currentPasswordIsIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password is incorrect.'**
+  String get currentPasswordIsIncorrect;
 }
 
 class _AppLocalizationsDelegate

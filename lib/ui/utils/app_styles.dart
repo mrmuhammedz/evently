@@ -31,6 +31,9 @@ abstract final class AppStyles {
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
+  static const TextStyle regularTextStyle20 = TextStyle(
+    fontSize: 20,
+  );
   static const TextStyle mediumTextStyle20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
@@ -39,7 +42,7 @@ abstract final class AppStyles {
     fontSize: 20,
     fontWeight: FontWeight.w600,
   );
-  static const TextStyle mainColor24semiBold = TextStyle(
+  static const TextStyle semiBoldTextStyle24 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w600,
   );

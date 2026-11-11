@@ -10,7 +10,7 @@ class EventlyTextFormField extends StatefulWidget {
   final String? prefixIcon;
   final String? suffixIcon;
   final String? suffixIconInactive;
-  final Color? suffixIconColor;
+  final Color suffixIconColor;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
@@ -26,7 +26,7 @@ class EventlyTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.suffixIconInactive,
-    this.suffixIconColor,
+    this.suffixIconColor = AppColors.disable,
     this.controller,
     this.validator,
     this.onChanged,

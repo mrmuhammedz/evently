@@ -69,7 +69,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                 _isRegister
                     ? _appLocalizations.createYourAccount
                     : _appLocalizations.loginToYourAccount,
-                style: AppStyles.mainColor24semiBold,
+                style: AppStyles.semiBoldTextStyle24,
               ),
               SizedBox(height: 24),
               if (_isRegister) ...[nameField(), SizedBox(height: 16)],
@@ -236,7 +236,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       label: _appLocalizations.confirmYourPassword,
       prefixIcon: AppIcons.lock,
       suffixIcon: AppIcons.eye,
-      suffixIconColor: AppColors.disable,
       suffixIconInactive: AppIcons.eyeSlash,
       controller: widget.controllers["confirmPassword"],
       obscureText: true,
@@ -258,7 +257,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       label: _appLocalizations.enterYourPassword,
       prefixIcon: AppIcons.lock,
       suffixIcon: AppIcons.eye,
-      suffixIconColor: AppColors.disable,
       suffixIconInactive: AppIcons.eyeSlash,
       obscureText: true,
       textInputAction: _isRegister

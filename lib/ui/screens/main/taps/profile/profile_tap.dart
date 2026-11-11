@@ -51,16 +51,14 @@ class ProfileTap extends StatelessWidget {
           SizedBox(height: 32),
           optionRow(
             theme: theme,
-            text: appLocalizations.profile,
+            text: appLocalizations.editProfile,
             action: SvgAsset(
               asset: currentLocale == "en"
                   ? AppIcons.arrowRight
                   : AppIcons.arrowLeft,
               color: theme.primaryColor,
             ),
-            onTap: () {
-              // Handle profile option tap
-            },
+            onTap: () => Navigator.push(context, AppRoutes.editProfileRoute()),
           ),
           SizedBox(height: 16),
           optionRow(
@@ -127,7 +125,7 @@ class ProfileTap extends StatelessWidget {
     final confirm = await eventlyShowDialog(
       context,
       title: appLocalizations.logout,
-      content:  Text(
+      content: Text(
         appLocalizations.logoutConfirmation,
         style: AppStyles.mediumTextStyle16.copyWith(
           color: theme.colorScheme.onSurfaceVariant,

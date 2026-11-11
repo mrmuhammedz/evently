@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ButtonWidget extends StatelessWidget {
   final double horizontalPadding;
   final double verticalPadding;
+  final double radius;
   final Function? onTap;
   final Widget child;
   final Widget? icon;
@@ -13,6 +14,7 @@ class ButtonWidget extends StatelessWidget {
     super.key,
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
+    this.radius = 8,
     this.bgColor = AppColors.white,
     this.onTap,
     required this.child,
@@ -25,7 +27,7 @@ class ButtonWidget extends StatelessWidget {
     final bgColorTheme = bgColor == AppColors.white ? theme.colorScheme.surface : bgColor;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(radius),
       onTap: () => onTap?.call(),
       child: Container(
         padding: EdgeInsetsGeometry.symmetric(
@@ -33,7 +35,7 @@ class ButtonWidget extends StatelessWidget {
           vertical: verticalPadding,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radius),
           border: bgColorTheme == theme.primaryColor
               ? null
               : Border.all(color: theme.colorScheme.outline),

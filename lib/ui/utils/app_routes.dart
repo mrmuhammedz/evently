@@ -1,4 +1,6 @@
 import 'package:evently/models/event_dm.dart';
+import 'package:evently/ui/screens/edit_profile/edit_password_screen.dart';
+import 'package:evently/ui/screens/edit_profile/edit_profile_screen.dart';
 import 'package:evently/ui/screens/event_details/event_details_screen.dart';
 import 'package:evently/ui/screens/my_events/my_events_screen.dart';
 import 'package:evently/ui/screens/onboarding/onboarding_screen.dart';
@@ -32,4 +34,8 @@ abstract final class AppRoutes {
       MaterialPageRoute(builder: (_) => const MyEventsScreen());
   static MaterialPageRoute editEventRoute({required EventDm event}) =>
       MaterialPageRoute(builder: (_) => EventScreenWidget(event: event));
+  static MaterialPageRoute editProfileRoute() =>
+      MaterialPageRoute(builder: (_) => const EditProfileScreen());
+  static MaterialPageRoute editPasswordRoute() =>
+      MaterialPageRoute(builder: (_) => const EditPasswordScreen());
 }
