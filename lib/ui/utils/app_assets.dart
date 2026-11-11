@@ -3,7 +3,6 @@ abstract final class AppImages {
   static const String profile = '${_path}default_profile.png';
   static const String google = '${_path}google.png';
   static const String logo = '${_path}logo.png';
-  static const String eventlyLogo = '${_path}evently_logo.png';
   static const String onboardingPage1 = '${_path}onboarding1.png';
   static const String onboardingPage2 = '${_path}onboarding2.png';
   static const String onboardingPage3 = '${_path}onboarding3.png';
@@ -49,7 +48,6 @@ abstract final class AppIcons {
   static const String heart = '${_path}heart.svg';
   static const String home = '${_path}home.svg';
   static const String lock = '${_path}lock.svg';
-  static const String logo = '${_path}logo.svg';
   static const String logout = '${_path}logout.svg';
   static const String moon = '${_path}moon.svg';
   static const String search = '${_path}search.svg';
