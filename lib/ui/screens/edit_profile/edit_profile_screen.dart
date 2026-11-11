@@ -263,22 +263,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       String message = emailNeedsVerification
           ? _appLocalizations.nameUpdatedVerificationSent
           : _appLocalizations.dataUpdatedSuccessfully;
+      if (!mounted) return;
       setState(() {
         _isSuccessMessage = true;
         _errorMessage = message;
       });
     } on TimeoutException {
-      setState(() {
-        _isSuccessMessage = false;
-        _errorMessage = _appLocalizations.timedOut;
-      });
+      if (mounted) {
+        setState(() {
+          _isSuccessMessage = false;
+          _errorMessage = _appLocalizations.timedOut;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _isSuccessMessage = false;
-        _errorMessage = e.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _isSuccessMessage = false;
+          _errorMessage = e.toString();
+        });
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

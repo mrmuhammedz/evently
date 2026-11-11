@@ -1,7 +1,7 @@
-import 'package:evently/services/auth_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/user_dm.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/services/auth_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
@@ -346,25 +346,32 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
       Navigator.pushReplacement(context, AppRoutes.mainRoute());
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled) return;
-      setState(() {
-        widget.errorMessages["default"] = _appLocalizations.unableToSignUp;
-      });
+      if (mounted) {
+        setState(() {
+          widget.errorMessages["default"] = _appLocalizations.unableToSignUp;
+        });
+      }
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        widget.errorMessages["default"] = switch (e.code) {
-          "account-exists-with-different-credential" =>
-            _appLocalizations.thisAccountAlreadyExists,
-          "invalid-credential" => _appLocalizations.invalidGoogleCredentials,
-          "operation-not-allowed" => _appLocalizations.googleSignInIsNotEnabled,
-          "user-disabled" => _appLocalizations.thisAccountHasBeenDisabled,
-          _ => _appLocalizations.defaultErrorMessages,
-        };
-      });
+      if (mounted) {
+        setState(() {
+          widget.errorMessages["default"] = switch (e.code) {
+            "account-exists-with-different-credential" =>
+              _appLocalizations.thisAccountAlreadyExists,
+            "invalid-credential" => _appLocalizations.invalidGoogleCredentials,
+            "operation-not-allowed" =>
+              _appLocalizations.googleSignInIsNotEnabled,
+            "user-disabled" => _appLocalizations.thisAccountHasBeenDisabled,
+            _ => _appLocalizations.defaultErrorMessages,
+          };
+        });
+      }
     } catch (e) {
-      setState(() {
-        widget.errorMessages["default"] =
-            _appLocalizations.defaultErrorMessages;
-      });
+      if (mounted) {
+        setState(() {
+          widget.errorMessages["default"] =
+              _appLocalizations.defaultErrorMessages;
+        });
+      }
     } finally {
       if (mounted) {
         setState(() {

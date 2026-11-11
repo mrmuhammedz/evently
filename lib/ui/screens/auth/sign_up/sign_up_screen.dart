@@ -1,5 +1,5 @@
-import 'package:evently/services/auth_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/services/auth_service.dart';
 import 'package:evently/ui/widgets/login_register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     try {
       await AuthService().createUserWithEmailAndPassword(
-        name: _controllers["name"]!.text,
-        email: _controllers["email"]!.text,
+        name: _controllers["name"]!.text.trim(),
+        email: _controllers["email"]!.text.trim(),
         password: _controllers["password"]!.text,
       );
 

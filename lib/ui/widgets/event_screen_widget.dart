@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_dm.dart';
 import 'package:evently/models/event_dm.dart';
@@ -7,10 +8,10 @@ import 'package:evently/services/event_service.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_styles.dart';
+import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/category_image.dart';
 import 'package:evently/ui/widgets/evently_button.dart';
 import 'package:evently/ui/widgets/evently_header.dart';
-import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/evently_scaffold.dart';
 import 'package:evently/ui/widgets/evently_tap_bar.dart';
 import 'package:evently/ui/widgets/evently_text_form_field.dart';
@@ -203,18 +204,17 @@ class _EventScreenWidgetState extends State<EventScreenWidget> {
           firstDate: _now,
           lastDate: _now.add(const Duration(days: 365)),
         );
-        if (pickedDate != null) {
-          setState(() {
-            _selectedDate = pickedDate;
-            _selectedDateTime = DateTime(
-              pickedDate.year,
-              pickedDate.month,
-              pickedDate.day,
-              _selectedTime?.hour ?? 0,
-              _selectedTime?.minute ?? 0,
-            );
-          });
-        }
+        if (!mounted || pickedDate == null) return;
+        setState(() {
+          _selectedDate = pickedDate;
+          _selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            _selectedTime?.hour ?? 0,
+            _selectedTime?.minute ?? 0,
+          );
+        });
       },
     );
   }
@@ -235,18 +235,17 @@ class _EventScreenWidgetState extends State<EventScreenWidget> {
           context: context,
           initialTime: _selectedTime ?? TimeOfDay.now(),
         );
-        if (pickedTime != null) {
-          setState(() {
-            _selectedTime = pickedTime;
-            _selectedDateTime = DateTime(
-              _selectedDate?.year ?? _now.year,
-              _selectedDate?.month ?? _now.month,
-              _selectedDate?.day ?? _now.day,
-              pickedTime.hour,
-              pickedTime.minute,
-            );
-          });
-        }
+        if (!mounted || pickedTime == null) return;
+        setState(() {
+          _selectedTime = pickedTime;
+          _selectedDateTime = DateTime(
+            _selectedDate?.year ?? _now.year,
+            _selectedDate?.month ?? _now.month,
+            _selectedDate?.day ?? _now.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
       },
     );
   }
@@ -315,11 +314,17 @@ class _EventScreenWidgetState extends State<EventScreenWidget> {
       Navigator.pop(context);
       if (widget.event != null) Navigator.pop(context);
     } on TimeoutException {
-      setState(() => _errorMessage = _appLocalizations.timedOut);
+      if (mounted) {
+        setState(() => _errorMessage = _appLocalizations.timedOut);
+      }
     } catch (e) {
-      setState(() => _errorMessage = e.toString());
+      if (mounted) {
+        setState(() => _errorMessage = e.toString());
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

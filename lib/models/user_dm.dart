@@ -10,8 +10,8 @@ class UserDm {
     required this.name,
     required this.email,
     this.photoUrl,
-    this.favoritesEvents = const [],
-  });
+    List<String>? favoritesEvents,
+  }) : favoritesEvents = List<String>.from(favoritesEvents ?? []);
 
   UserDm.fromJson(Map<String, dynamic> map)
     : id = map["id"],

@@ -26,7 +26,7 @@ class _EventlyTapBarState extends State<EventlyTapBar> {
     super.initState();
     _currentIndex = _indexForCategory(widget.currentCategory);
   }
-  
+
   int _indexForCategory(EventCategory? category) {
     final index = widget.categories.indexWhere((item) => item.id == category);
     return index < 0 ? 0 : index;

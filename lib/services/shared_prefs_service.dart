@@ -11,7 +11,8 @@ class SharedPrefsService {
   static Future<void> setFirstTimeCompleted() async =>
       _prefs.setBool('isFirstTime', false);
 
-  static String get themeMode => _prefs.getString('themeMode') ?? 'ThemeMode.system';
+  static String get themeMode =>
+      _prefs.getString('themeMode') ?? 'ThemeMode.system';
   static Future<void> setThemeMode(String mode) async =>
       _prefs.setString('themeMode', mode);
 

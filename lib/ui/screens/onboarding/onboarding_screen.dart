@@ -3,21 +3,19 @@ import 'package:evently/models/onboarding_dm.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:evently/services/shared_prefs_service.dart';
-import 'package:evently/ui/widgets/svg_asset.dart';
-import 'package:evently/ui/widgets/theme_dropdown.dart';
-import 'package:provider/provider.dart';
 import 'package:evently/ui/utils/app_assets.dart';
 import 'package:evently/ui/utils/app_colors.dart';
 import 'package:evently/ui/utils/app_routes.dart';
 import 'package:evently/ui/utils/app_styles.dart';
-import 'package:evently/ui/widgets/evently_header.dart';
 import 'package:evently/ui/widgets/button_widget.dart';
 import 'package:evently/ui/widgets/evently_button.dart';
+import 'package:evently/ui/widgets/evently_header.dart';
+import 'package:evently/ui/widgets/evently_scaffold.dart';
+import 'package:evently/ui/widgets/svg_asset.dart';
+import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../widgets/evently_scaffold.dart';
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -201,6 +199,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Widget header() => EventlyHeader(

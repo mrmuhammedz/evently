@@ -103,8 +103,11 @@ class EventDetailsScreen extends StatelessWidget {
           ),
           SizedBox(width: 8),
           ButtonWidget(
-            onTap: () =>
-                deleteDialog(context, appLocalizations: appLocalizations,theme: theme),
+            onTap: () => deleteDialog(
+              context,
+              appLocalizations: appLocalizations,
+              theme: theme,
+            ),
             child: SvgAsset(asset: AppIcons.trash),
           ),
         ],
@@ -115,12 +118,12 @@ class EventDetailsScreen extends StatelessWidget {
   Future<void> deleteDialog(
     BuildContext context, {
     required AppLocalizations appLocalizations,
-    required ThemeData theme
+    required ThemeData theme,
   }) async {
     final confirm = await eventlyShowDialog(
       context,
       title: appLocalizations.deleteEvent,
-      content:  Text(
+      content: Text(
         appLocalizations.deleteConfirmation,
         style: AppStyles.mediumTextStyle16.copyWith(
           color: theme.colorScheme.onSurfaceVariant,

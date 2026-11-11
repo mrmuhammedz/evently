@@ -24,7 +24,9 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bgColorTheme = bgColor == AppColors.white ? theme.colorScheme.surface : bgColor;
+    final bgColorTheme = bgColor == AppColors.white
+        ? theme.colorScheme.surface
+        : bgColor;
 
     return InkWell(
       borderRadius: BorderRadius.circular(radius),

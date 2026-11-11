@@ -33,6 +33,34 @@ class EventService {
     );
   }
 
+  Stream<List<EventDm>> getFavoriteEvents(List<String> favorites) {
+    if (favorites.isEmpty) {
+      return Stream.value([]);
+    }
+
+    final safeIds = favorites.take(30).toList();
+
+    return _firestore
+        .collection('events')
+        .where(FieldPath.documentId, whereIn: safeIds)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => EventDm.fromJson(doc.data())).toList(),
+        );
+  }
+
+  Stream<List<EventDm>> getMyEvents(String userId) {
+    return _firestore
+        .collection('events')
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) => EventDm.fromJson(doc.data())).toList(),
+        );
+  }
+
   Future<void> updateFavorite({
     required String userId,
     required String eventId,

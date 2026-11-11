@@ -677,7 +677,7 @@ abstract class AppLocalizations {
   /// No description provided for @sendResetMail.
   ///
   /// In en, this message translates to:
-  /// **'Send password reset email'**
+  /// **'Send an email'**
   String get sendResetMail;
 
   /// No description provided for @resetYourPassword.

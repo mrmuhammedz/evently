@@ -32,7 +32,7 @@ abstract final class AppTheme {
       foregroundColor: AppColors.white,
     ),
   );
-  
+
   static final darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,

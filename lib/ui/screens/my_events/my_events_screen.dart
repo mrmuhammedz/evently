@@ -22,14 +22,14 @@ class MyEventsScreen extends StatefulWidget {
 
 class _MyEventsScreenState extends State<MyEventsScreen> {
   late final Stream<List<EventDm>> _eventsStream;
-  UserDm? get _user => context.watch<UserProvider>().user;
   ThemeData get _theme => Theme.of(context);
   AppLocalizations get _appLocalizations => AppLocalizations.of(context)!;
+  UserDm? get _user => context.read<UserProvider>().user;
 
   @override
   void initState() {
     super.initState();
-    _eventsStream = EventService().getEvents();
+    _eventsStream = EventService().getMyEvents(_user!.id);
   }
 
   @override
@@ -47,14 +47,12 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData ||
-                  filteredEvents(snapshot.data!).isEmpty) {
-                return Center(child: Text(_appLocalizations.noEventsFound));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Expanded(
+                  child: Center(child: Text(_appLocalizations.noEventsFound)),
+                );
               }
-              return EventsList(
-                events: filteredEvents(snapshot.data!),
-                heroTag: 'my_events_',
-              );
+              return EventsList(events: snapshot.data!, heroTag: 'my_events_');
             },
           ),
         ],
@@ -80,9 +78,5 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
         ),
       ),
     );
-  }
-
-  List<EventDm> filteredEvents(List<EventDm> filteredEvents) {
-    return filteredEvents.where((event) => event.userId == _user?.id).toList();
   }
 }

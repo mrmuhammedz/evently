@@ -5,7 +5,12 @@ class EventlyScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
 
-  const EventlyScaffold({super.key, required this.child, this.bottomNavigationBar, this.floatingActionButton});
+  const EventlyScaffold({
+    super.key,
+    required this.child,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -64,7 +64,9 @@ class _HomeTapState extends State<HomeTap> {
               );
             } else if (!snapshot.hasData ||
                 filteredEvents(snapshot.data ?? []).isEmpty) {
-              return Center(child: Text(_appLocalizations.noEventsFound));
+              return Expanded(
+                child: Center(child: Text(_appLocalizations.noEventsFound)),
+              );
             }
 
             return EventsList(

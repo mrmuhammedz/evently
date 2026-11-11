@@ -313,7 +313,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Password must contain at least one number';
 
   @override
-  String get sendResetMail => 'Send password reset email';
+  String get sendResetMail => 'Send an email';
 
   @override
   String get resetYourPassword => 'Reset your password';

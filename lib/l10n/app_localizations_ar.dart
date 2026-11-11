@@ -314,7 +314,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل';
 
   @override
-  String get sendResetMail => 'إرسال بريد إلكتروني لإعادة تعيين كلمة المرور';
+  String get sendResetMail => 'إرسال بريد إلكتروني';
 
   @override
   String get resetYourPassword => 'أعد تعيين كلمة المرور الخاصة بك';

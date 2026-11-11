@@ -18,13 +18,14 @@ class EventDm {
   });
 
   EventDm.fromJson(Map<String, dynamic> map)
-      : id = map["id"],
-        userId = map["userId"],
-        categoryId = EventCategory.values.firstWhere(
-            (category) => category.name == map["categoryId"]),
-        title = map["title"],
-        description = map["description"],
-        dateTime = map["dateTime"].toDate();
+    : id = map["id"],
+      userId = map["userId"],
+      categoryId = EventCategory.values.firstWhere(
+        (category) => category.name == map["categoryId"],
+      ),
+      title = map["title"],
+      description = map["description"],
+      dateTime = map["dateTime"].toDate();
 
   Map<String, dynamic> toJson() {
     return {

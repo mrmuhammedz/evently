@@ -323,19 +323,25 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
 
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        if (e.code == 'invalid-credential' || e.code == 'wrong-password') {
-          _errorMessage = _appLocalizations.currentPasswordIsIncorrect;
-        } else {
-          _errorMessage = _appLocalizations.defaultErrorMessages;
-        }
-      });
+      if (mounted) {
+        setState(() {
+          if (e.code == 'invalid-credential' || e.code == 'wrong-password') {
+            _errorMessage = _appLocalizations.currentPasswordIsIncorrect;
+          } else {
+            _errorMessage = _appLocalizations.defaultErrorMessages;
+          }
+        });
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = e.toString();
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString();
+        });
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 }

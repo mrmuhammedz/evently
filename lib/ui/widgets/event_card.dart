@@ -22,7 +22,9 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = context.read<UserProvider>();
-    final isFavorite = userProvider.isFavorite(event.id);
+    final isFavorite = context.select<UserProvider, bool>(
+      (provider) => provider.isFavorite(event.id),
+    );
     final appLocalizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     bool isEventEnded = DateTime.now().isAfter(event.dateTime);
@@ -69,13 +71,18 @@ class EventCard extends StatelessWidget {
                     horizontalPadding: 8,
                     verticalPadding: 8,
                     icon: GestureDetector(
-                      onTap: () {
-                        EventService().updateFavorite(
-                          eventId: event.id,
-                          userId: userProvider.user!.id,
-                          isFavorite: isFavorite,
-                        );
+                      onTap: () async {
                         userProvider.setFavorite(event.id, isFavorite);
+
+                        try {
+                          await EventService().updateFavorite(
+                            eventId: event.id,
+                            userId: userProvider.user!.id,
+                            isFavorite: isFavorite,
+                          );
+                        } catch (_) {
+                          userProvider.setFavorite(event.id, !isFavorite);
+                        }
                       },
                       child: SvgAsset(
                         asset: isFavorite

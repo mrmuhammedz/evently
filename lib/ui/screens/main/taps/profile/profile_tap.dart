@@ -2,13 +2,13 @@ import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:evently/providers/user_provider.dart';
+import 'package:evently/ui/utils/app_assets.dart';
+import 'package:evently/ui/utils/app_routes.dart';
+import 'package:evently/ui/utils/app_styles.dart';
 import 'package:evently/ui/widgets/evently_dialog.dart';
 import 'package:evently/ui/widgets/svg_asset.dart';
 import 'package:evently/ui/widgets/theme_dropdown.dart';
 import 'package:evently/ui/widgets/user_image.dart';
-import 'package:evently/ui/utils/app_assets.dart';
-import 'package:evently/ui/utils/app_routes.dart';
-import 'package:evently/ui/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -135,9 +135,9 @@ class ProfileTap extends StatelessWidget {
       confirm: appLocalizations.confirm,
     );
 
-    if (!context.mounted) return;
     if (confirm == true) {
-      userProvider.logout();
+      await userProvider.logout();
+      if (!context.mounted) return;
       Navigator.pushReplacement(context, AppRoutes.loginRoute());
     }
   }
